@@ -1,0 +1,201 @@
+{% extends 'user_site/layout.html' %}
+{% block 'main' %}
+{% load static %}
+{% load humanize %}
+<div class="row">
+	<div class="d-flex justify-content-between align-items-center mb-4">
+		<h4 class="heading mb-0"><b>Email Account Configuration List</b></h4>
+		<div class="d-flex align-items-center">
+            <button title="Add Configuration"  type="button" class="btn btn-primary" data-bs-toggle="modal" style="width:100%" data-bs-target="#verticalycentered">+ Add Email Conf</button>
+        </div>
+	</div>
+	<div class="col-xl-12 active-p">
+		<div class="tab-content" id="pills-tabContent">
+			<div class="tab-pane fade show active" id="pills-colm" role="tabpanel" aria-labelledby="pills-colm-tab">
+				<div class="card">
+					 <div class="card-body px-3">
+                        <h5 class="card-title">Email Account Configurations</h5>
+                        {% if form.errors %}
+                            <h5 class="text-danger">{{form.errors}}</h5>
+                        {% endif %}
+
+
+                        {% if smtp_configuration_list %}
+                        <div class="row">
+                        {% for method in smtp_configuration_list %}
+                            <div class="col-md-6">
+                                <div class="card info-card sales-card">
+                                    <div class="card-body">
+                                        <h5 class="card-title"></h5>
+                                        <div class="d-flex align-items-center">
+                                            <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
+                                                <i class="bi bi-gear"></i>
+                                            </div>
+                                            <div class="ps-3" title="">
+                                                <h6>{{ method|title }}</h6>
+                                                <p>{% if method.is_general %} General Usage {% else %} {% if method.staff %} {{ method.staff|title }} {% endif %} {% endif %}  </p>
+                                                <span class="text-muted small pt-2 ps-1">Email: {{ method.email|lower }}</span> <br />
+                                                <span class="text-muted small pt-2 ps-1">Username: {{ method.username }}</span> <br />
+                                                <span class="text-muted small pt-2 ps-1">Password: {{ '********' }}</span> <br />
+                                                <span class="text-muted small pt-2 ps-1">Hostname: {{ method.host }}</span> <br />
+                                                <span class="text-muted small pt-2 ps-1">Port: {{ method.port }}</span> <br />
+                                                <span class="text-muted small pt-2 ps-1">TLS: {{ method.use_tls }}</span> <br />
+
+                                                 <p><br />
+                                                    <button title="Edit Configuration" type="button" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#edit{{ forloop.counter }}"><i class="bi bi-pencil-square"></i></button>
+                                                    <a href="{% url 'smtp_configuration_delete' method.id %}" title="Delete Configuration" class="btn btn-danger"><i class="bi bi-trash"></i></a>
+
+                                                </p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        {% endfor %}
+                        </div>
+                        {% else %}
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="card info-card sales-card">
+                                        <div class="card-body">
+                                            <h5 class="card-title"></h5>
+                                            <div class="d-flex align-items-center">
+                                                <div class="ps-3">
+                                                    <h6 class="text-center">No Email Account Configuration Added Yet</h6>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        {% endif %}
+
+                    </div>
+				</div>
+
+			</div>
+		</div>
+	</div>
+</div>
+
+<form method="POST" action="{% url 'smtp_configuration_create' %}">
+    {% csrf_token %}
+    <div class="modal fade" id="verticalycentered" tabindex="-1">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Add Email Configuration</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+
+                <input type="hidden" name="user" value="{{ user.id }}" />
+                <div class="modal-body row">
+                    <div class="form-floating col-md-6">
+                        {{ form.name }}
+                        <label for="floatingName">Account Name <span style="color:red"><b>*</b></span></label>
+                        <br>
+                    </div><br />
+
+                    <div class="form-floating col-md-6">
+                        {{ form.email }}
+                        <label for="floatingName">Email <span style="color:red"><b>*</b></span></label>
+                        <br />
+                    </div><br />
+
+                    <div class="form-floating col-md-6">
+                        {{ form.password }}
+                        <label for="floatingName">Password <span style="color:red"><b>*</b></span></label>
+                        <br />
+                    </div><br />
+
+                    <div class="form-floating col-md-6">
+                        {{ form.host }}
+                        <label for="floatingName">Host Name <span style="color:red"><b>*</b></span></label>
+                        <br />
+                    </div><br />
+
+                    <div class="form-floating col-md-6">
+                        {{ form.port }}
+                        <label for="floatingName">Port Number <span style="color:red"><b>*</b></span></label>
+                        <br />
+                    </div><br />
+
+                    <div class="form-floating col-md-6">
+                        {{ form.use_tls }}
+                        <label for="floatingName">Use TLS <span style="color:red"><b>*</b></span></label>
+                        <br>
+                    </div><br />
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Cancel</button>
+                    <button type="submit" class="btn btn-primary">Save changes</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+
+
+{% for config in smtp_configuration_list %}
+<form method="POST" action="{% url 'smtp_configuration_edit' config.id %}">
+    {% csrf_token %}
+    <div class="modal fade" id="edit{{ forloop.counter }}" tabindex="-1">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Edit Email Configuration - {{ config }}</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body row">
+
+                    <div class="form-floating col-md-6">
+                        <input type="text" name="name" class="form-control" required value="{{config.name}}">
+                        <input type="hidden" name="user" value="{{ user.id }}" />
+                        <label for="floatingName">Account Name <span style="color:red"><b>*</b></span></label>
+                        <br />
+                    </div><br />
+
+                    <div class="form-floating col-md-6">
+                        <input type="email" name="email" class="form-control" required value="{{config.email|lower}}">
+                        <label for="floatingName">Email <span style="color:red"><b>*</b></span></label>
+                        <br />
+                    </div><br />
+
+                    <div class="form-floating col-md-6">
+                        <input type="password" name="password" class="form-control" required value="{{config.password}}">
+                        <label for="floatingName">Password <span style="color:red"><b>*</b></span></label>
+                        <br />
+                    </div><br />
+
+                    <div class="form-floating col-md-6">
+                        <input type="text" name="host" class="form-control" required value="{{config.host}}">
+                        <label for="floatingName">Host Name <span style="color:red"><b>*</b></span></label>
+                        <br />
+                    </div><br />
+
+                    <div class="form-floating col-md-6">
+                        <input type="number" name="port" class="form-control" required value="{{config.port}}">
+                        <label for="floatingName">Port Number <span style="color:red"><b>*</b></span></label>
+                        <br />
+                    </div><br />
+                    
+                    <div class="form-floating col-md-6">
+                        <input type="checkbox" name="use_tls" {% if config.use_tls %} checked {% endif %}>
+                        <label for="floatingName">Use TLS <span style="color:red"><b></b></span></label>
+                        <br />
+                    </div><br />
+
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Cancel</button>
+                    <button type="submit" class="btn btn-primary">Save changes</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+{% endfor %}
+
+{% endblock %}

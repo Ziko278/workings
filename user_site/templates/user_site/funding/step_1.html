@@ -1,0 +1,60 @@
+{% extends 'user_site/layout.html' %}
+{% load static %}
+{% load humanize %}
+{% block 'main' %}
+<div class="col-12">
+    <div class="card">
+        <div class="card-body p-0">
+            <div class="table-responsive active-projects">
+                <div class="tbl-caption">
+                    <h4 class="heading mb-0 fs-3 text-center">Fund Account </h4>
+                </div>
+                <div class="text-center">
+                   <a class="text-success fs-3" href="{% url 'user_plan_index' 'all' %}">VIEW PRICING </a>
+
+                </div>
+
+                <form action="" method="post">
+                    {% csrf_token %}
+                    {% if trade_plan %} <input type="hidden" name="trade_plan" value="{{trade_plan}}"> {% endif %}
+                    <div class="row p-5">
+                        <div class="col-md-6 col-lg-6 offset-md-3 offset-lg-3">
+                            <div class="card">
+                                <div class="card-body p-5">
+                                    <div class="col-auto">
+                                        <label class="form-check-label fs-4">Amount</label>
+                                        <div class="input-group mb-2">
+                                            <div class="input-group-text">{{site_setting.default_currency.symbol}}</div>
+                                            <input type="number" autocomplete="off" {% if amount %} value="{{amount|floatformat}}" {% endif %} class="form-control" name="amount" min="{{site_setting.minimum_deposit|floatformat}}" required placeholder="minimum deposit: {{site_setting.minimum_deposit|floatformat|intcomma}}">
+                                        </div>
+                                    </div>
+
+                                    <div class="col-auto">
+                                        <br>
+                                        <label class="form-check-label fs-4">Account</label>
+                                        <div class="mb-2">
+                                            <select name="account" class="form-control" required>
+                                                <option value="trading" {% if is_trading or site_setting.default_funding_account|lower == 'trading' %} selected {% endif %}>Trading Balance</option>
+                                                <option value="holding" {% if not is_trading %} {% if site_setting.default_funding_account|lower == 'holding' %} selected {% endif %} {% endif %}>Holding Balance</option>
+                                            </select>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-auto">
+                                        <br>
+                                        <input type="submit" value="Proceed" class="btn btn-primary">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+{% endblock %}
+

@@ -1,0 +1,934 @@
+{% extends 'admin_site/layout.html' %}
+{% load static %}
+{% load humanize %}
+{% block 'main' %}
+<div class="card">
+  <div class="card-body">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+		<h4 class="heading mb-0"><b>Profit and Loss Data {% if start_date == end_date %} for {{ start_date|date }} {% else %} from {{ start_date|date }} to {{ end_date|date }} {% endif %}</b></h4>
+		<form action="">
+			<b>From:</b><input type="date" value="{{ start_date|date:'Y-m-d' }}" style="display:inline;width:100px" class="form-control" name="start_date" required>
+			<b>To:</b><input type="date" value="{{ end_date|date:'Y-m-d' }}" id="end_date" style="display:inline;width:100px" class="form-control" name="end_date" required>
+			<button class="btn btn-primary" id="button">Filter</button>
+		</form>
+	</div>
+  </div>
+
+</div>
+<div class="row">
+    <div class="col-xl-9 col-xxl-12">
+        <div class="row">
+            <div class="col-xl-12">
+                <div class="row">
+                    <div class="col-xl-6">
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="card bg-primary text-white">
+                                    <div class="card-header border-0 flex-wrap">
+                                        <div class="revenue-date">
+                                            <span>Total Revenues</span>
+                                            <h4 class="text-white">N {{ total_income|floatformat|intcomma }}</h4>
+                                        </div>
+                                    </div>
+
+                                    <div class="card-body pb-0 custome-tooltip d-flex align-items-center">
+                                        <div id="chartBar" class="chartBar"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                  <div class="col-xl-6">
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="card bg-secondary text-white">
+                                    <div class="card-header border-0">
+                                        <div class="revenue-date">
+                                            <span class="text-black">Total Expenses</span>
+                                            <h4 class="text-black">N{{total_expense|floatformat|intcomma}}</h4>
+                                        </div>
+                                    </div>
+
+                                  <div class="card-body pb-0 custome-tooltip d-flex align-items-center">
+                                        <div id="expensesChart" class="chartBar"></div>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-xl-12">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="row">
+                                    <div class="col-4">
+                                        <div class="card">
+                                            <div class="card-body d-flex justify-content-between align-items-center">
+                                                <div class="d-flex">
+                                                    <div class="icon-box icon-box-md bg-danger-light me-1">
+                                                        <i class="fa-solid fa-box text-danger"></i>
+                                                    </div>
+                                                    <div class="ms-2">
+                                                        <h4>{{ total_income|floatformat|intcomma }}</h4>
+                                                        <p class="mb-0">Total Revenue</p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-4">
+                                        <div class="card">
+                                            <div class="card-body d-flex justify-content-between align-items-center">
+                                                <div class="d-flex">
+                                                    <div class="icon-box icon-box-md bg-danger-light me-1">
+                                                        <i class="fa-solid fa-box text-danger"></i>
+                                                    </div>
+                                                    <div class="ms-2">
+                                                        <h4>{{ total_expense|floatformat|intcomma }}</h4>
+                                                        <p class="mb-0">Total Expense</p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-4">
+                                        <div class="card">
+                                            <div class="card-body d-flex justify-content-between align-items-center">
+                                                <div class="d-flex">
+                                                    <div class="icon-box icon-box-md bg-danger-light me-1">
+                                                        <i class="fa-solid fa-box text-danger"></i>
+                                                    </div>
+                                                    <div class="ms-2">
+                                                        <h4>{{ total_profit|floatformat|intcomma }}</h4>
+                                                        <p class="mb-0">Total Profit</p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-xl-12">
+                        <div class="card overflow-hidden">
+                            <div class="card-header border-0 pb-0 flex-wrap">
+                                <h4 class="heading mb-0">Last 7 Days Revenue Chart</h4>
+                            </div>
+                            <div class="card-body custome-tooltip p-0">
+                                    <div id="overiewChart"></div>
+                                <div class="ttl-project">
+                                    <div class="pr-data">
+                                        <h5>N{{ income_7|floatformat|intcomma }}</h5>
+                                        <span>Last 7 Days Income</span>
+                                    </div>
+                                    <div class="pr-data">
+                                        <h5 class="text-primary">N{{ expense_7|floatformat|intcomma }}</h5>
+                                        <span>Last 7 Days Expense</span>
+                                    </div>
+                                    <div class="pr-data">
+                                        <h5>N{{ profit_7|floatformat|intcomma }}</h5>
+                                        <span>Last 7 Days Profit</span>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+
+{% endblock %}
+
+{% block 'script' %}
+<script>
+
+
+(function($) {
+    /* "use strict" */
+
+ var dzChartlist = function(){
+
+	var screenWidth = $(window).width();
+	let draw = Chart.controllers.line.__super__.draw; //draw shadow
+
+	var NewExperience = function(){
+		var options = {
+		  series: [
+			{
+				name: 'Net Profit',
+				data: [100,300, 200, 250, 200, 240, 180,230,200, 250, 300],
+				/* radius: 30,	 */
+			},
+		],
+			chart: {
+			type: 'area',
+			height: 40,
+			//width: 400,
+			toolbar: {
+				show: false,
+			},
+			zoom: {
+				enabled: false
+			},
+			sparkline: {
+				enabled: true
+			}
+
+		},
+
+		colors:['var(--primary)'],
+		dataLabels: {
+		  enabled: false,
+		},
+
+		legend: {
+			show: false,
+		},
+		stroke: {
+		  show: true,
+		  width: 2,
+		  curve:'straight',
+		  colors:['var(--primary)'],
+		},
+
+		grid: {
+			show:false,
+			borderColor: '#eee',
+			padding: {
+				top: 0,
+				right: 0,
+				bottom: 0,
+				left: -1
+
+			}
+		},
+		states: {
+                normal: {
+                    filter: {
+                        type: 'none',
+                        value: 0
+                    }
+                },
+                hover: {
+                    filter: {
+                        type: 'none',
+                        value: 0
+                    }
+                },
+                active: {
+                    allowMultipleDataPointsSelection: false,
+                    filter: {
+                        type: 'none',
+                        value: 0
+                    }
+                }
+            },
+		xaxis: {
+			categories: ['Jan', 'feb', 'Mar', 'Apr', 'May', 'June', 'July','August', 'Sept','Oct'],
+			axisBorder: {
+				show: false,
+			},
+			axisTicks: {
+				show: false
+			},
+			labels: {
+				show: false,
+				style: {
+					fontSize: '12px',
+				}
+			},
+			crosshairs: {
+				show: false,
+				position: 'front',
+				stroke: {
+					width: 1,
+					dashArray: 3
+				}
+			},
+			tooltip: {
+				enabled: true,
+				formatter: undefined,
+				offsetY: 0,
+				style: {
+					fontSize: '12px',
+				}
+			}
+		},
+		yaxis: {
+			show: false,
+		},
+		fill: {
+		  opacity: 0.9,
+		  colors:'var(--primary)',
+		  type: 'gradient',
+		  gradient: {
+			colorStops:[
+
+				{
+				  offset: 0,
+				  color: 'var(--primary)',
+				  opacity: .5
+				},
+				{
+				  offset: 0.6,
+				  color: 'var(--primary)',
+				  opacity: .5
+				},
+				{
+				  offset: 100,
+				  color: 'white',
+				  opacity: 0
+				}
+			  ],
+
+			}
+		},
+		tooltip: {
+			enabled:false,
+			style: {
+				fontSize: '12px',
+			},
+			y: {
+				formatter: function(val) {
+					return "$" + val + " thousands"
+				}
+			}
+		}
+		};
+
+		var chartBar1 = new ApexCharts(document.querySelector("#NewExperience"), options);
+		chartBar1.render();
+
+	}
+	var AllProject = function(){
+		var options = {
+			series: [12, 30, 20],
+         chart: {
+			type: 'donut',
+			width: 150,
+		},
+       plotOptions: {
+			pie: {
+			  donut: {
+				size: '80%',
+				labels: {
+					show: true,
+					name: {
+						show: true,
+						offsetY: 12,
+					},
+					value: {
+						show: true,
+						fontSize: '22px',
+						fontFamily:'Arial',
+						fontWeight:'500',
+						offsetY: -17,
+					},
+					total: {
+						show: true,
+						fontSize: '11px',
+						fontWeight:'500',
+						fontFamily:'Arial',
+						label: 'Compete',
+
+						formatter: function (w) {
+						  return w.globals.seriesTotals.reduce((a, b) => {
+							return a + b
+						  }, 0)
+						}
+					}
+				}
+			  }
+			}
+		},
+		 legend: {
+                show: false,
+            },
+		 colors: ['#3AC977', 'var(--primary)', 'var(--secondary)'],
+			labels: ["Compete", "Pending", "Not Start"],
+			dataLabels: {
+				enabled: false,
+			},
+        };
+		var chartBar1 = new ApexCharts(document.querySelector("#AllProject"), options);
+		chartBar1.render();
+
+	}
+
+	var overiewChart = function(){
+		 var options = {
+          series: [{
+          name: 'Profit',
+          type: 'column',
+          data: [{% for profit in profit_7_list %} {{profit}},{% endfor %}]
+        }, {
+          name: 'Income',
+          type: 'area',
+          data: [{% for income in income_7_list %} {{income}},{% endfor %}]
+        }, {
+          name: 'Expenses',
+          type: 'line',
+          data: [{% for expense in expense_7_list %} {{expense}},{% endfor %}]
+        }],
+          chart: {
+          height: 300,
+          type: 'line',
+          stacked: false,
+		  toolbar: {
+				show: false,
+			},
+        },
+        stroke: {
+          width: [0, 1, 1],
+          curve: 'straight',
+		  dashArray: [0, 0, 5]
+        },
+		legend: {
+			fontSize: '13px',
+			fontFamily: 'poppins',
+			 labels: {
+				  colors:'#888888',
+			 }
+		},
+        plotOptions: {
+          bar: {
+            columnWidth: '18%',
+			 borderRadius:6	,
+          }
+        },
+
+        fill: {
+          //opacity: [0.1, 0.1, 1],
+		  type : 'gradient',
+          gradient: {
+            inverseColors: false,
+            shade: 'light',
+            type: "vertical",
+            /* opacityFrom: 0.85,
+            opacityTo: 0.55, */
+			colorStops : [
+				[
+					{
+					  offset: 0,
+					  color: 'var(--primary)',
+					  opacity: 1
+					},
+					{
+					  offset: 100,
+					  color: 'var(--primary)',
+					  opacity: 1
+					}
+				],
+				[
+					{
+					  offset: 0,
+					  color: '#3AC977',
+					  opacity: 1
+					},
+					{
+					  offset: 0.4,
+					  color: '#3AC977',
+					  opacity: .15
+					},
+					{
+					  offset: 100,
+					  color: '#3AC977',
+					  opacity: 0
+					}
+				],
+				[
+					{
+					  offset: 0,
+					  color: '#FF5E5E',
+					  opacity: 1
+					},
+					{
+					  offset: 100,
+					  color: '#FF5E5E',
+					  opacity: 1
+					}
+				],
+			],
+            stops: [0, 100, 100, 100]
+          }
+        },
+		colors:["var(--primary)","#3AC977","#FF5E5E"],
+        labels: [{% for day in date_7_list %} '{{day|title}}', {% endfor %}
+        ],
+        markers: {
+          size: 0
+        },
+        xaxis: {
+          type: 'month',
+		  labels: {
+			   style: {
+				   fontSize: '13px',
+				   colors:'#888888',
+			   },
+		  },
+        },
+        yaxis: {
+          min: 0,
+		  tickAmount: 4,
+		  labels: {
+			   style: {
+				   fontSize: '13px',
+				   colors:'#888888',
+			   },
+		  },
+        },
+        tooltip: {
+          shared: true,
+          intersect: false,
+          y: {
+            formatter: function (y) {
+              if (typeof y !== "undefined") {
+                return "N" + y.toFixed(0);
+              }
+              return y;
+
+            }
+          }
+        }
+        };
+
+        var chart = new ApexCharts(document.querySelector("#overiewChart"), options);
+        chart.render();
+
+
+	}
+
+	var chartBar = function(){
+		var options = {
+			  series: [
+				{% for name, income in income_list.items %}
+				{
+					name: '{{name|title}}',
+					data: [{{income|floatformat}}],
+					radius: 12,
+				},
+
+				{% endfor %}
+
+			],
+				chart: {
+				type: 'bar',
+				height: 120,
+
+				toolbar: {
+					show: false,
+				},
+
+			},
+			plotOptions: {
+			  bar: {
+				horizontal: false,
+				columnWidth: '50%',
+				endingShape: "rounded",
+				borderRadius: 8,
+			  },
+
+			},
+			states: {
+			  hover: {
+				filter: 'none',
+			  }
+			},
+			colors:['#F8B940', '#FFFFFF'],
+			dataLabels: {
+			  enabled: false,
+			  offsetY: -30
+			},
+
+			legend: {
+				show: false,
+				fontSize: '12px',
+				labels: {
+					colors: '#000000',
+
+					},
+				markers: {
+				width: 18,
+				height: 18,
+				strokeWidth: 8,
+				strokeColor: '#fff',
+				fillColors: undefined,
+				radius: 12,
+				}
+			},
+			stroke: {
+			  show: true,
+			  width:14,
+			  curve: 'smooth',
+			  lineCap: 'round',
+			  colors: ['transparent']
+			},
+			grid: {
+				show: false,
+				xaxis: {
+					lines: {
+						show: false,
+					}
+				},
+				 yaxis: {
+						lines: {
+							show: false
+						}
+					},
+			},
+			xaxis: {
+				categories: ['JAN', 'FEB', 'MAR', 'APR', 'MAY'],
+				labels: {
+					show: false,
+					style: {
+						colors: '#A5AAB4',
+						fontSize: '14px',
+						fontWeight: '500',
+						fontFamily: 'poppins',
+						cssClass: 'apexcharts-xaxis-label',
+					},
+				},
+				crosshairs: {
+					show: false,
+				},
+				axisBorder: {
+					show: false,
+				},
+				axisTicks: {
+					show: false,
+				},
+			},
+			yaxis: {
+				labels: {
+				show: false,
+					offsetX:-16,
+				   style: {
+					  colors: '#000000',
+					  fontSize: '13px',
+					   fontFamily: 'poppins',
+					  fontWeight: 100,
+					  cssClass: 'apexcharts-xaxis-label',
+				  },
+			  },
+			},
+			};
+
+			var chartBar1 = new ApexCharts(document.querySelector("#chartBar"), options);
+			chartBar1.render();
+	}
+
+	var expensesChart = function(){
+		var options = {
+			  series: [
+			    {% for name, expense in expense_list.items %}
+				{
+					name: '{{name|title}}',
+					data: [{{expense|floatformat}}],
+					radius: 12,
+				},
+
+				{% endfor %}
+
+			],
+				chart: {
+				type: 'bar',
+				height: 120,
+
+				toolbar: {
+					show: false,
+				},
+
+			},
+			plotOptions: {
+			  bar: {
+				horizontal: false,
+				columnWidth: '60%',
+				endingShape: "rounded",
+				borderRadius: 8,
+			  },
+
+			},
+			states: {
+			  hover: {
+				filter: 'none',
+			  }
+			},
+			colors:['#FFFFFF', '#222B40'],
+			dataLabels: {
+			  enabled: false,
+			  offsetY: -30
+			},
+
+			legend: {
+				show: false,
+				fontSize: '12px',
+				labels: {
+					colors: '#000000',
+
+					},
+				markers: {
+				width: 18,
+				height: 18,
+				strokeWidth: 8,
+				strokeColor: '#fff',
+				fillColors: undefined,
+				radius: 12,
+				}
+			},
+			stroke: {
+			  show: true,
+			  width:14,
+			  curve: 'smooth',
+			  lineCap: 'round',
+			  colors: ['transparent']
+			},
+			grid: {
+				show: false,
+				xaxis: {
+					lines: {
+						show: false,
+					}
+				},
+				 yaxis: {
+						lines: {
+							show: false
+						}
+					},
+			},
+			xaxis: {
+				categories: ['JAN', 'FEB', 'MAR', 'APR', 'MAY'],
+				labels: {
+					show: false,
+					style: {
+						colors: '#A5AAB4',
+						fontSize: '14px',
+						fontWeight: '500',
+						fontFamily: 'poppins',
+						cssClass: 'apexcharts-xaxis-label',
+					},
+				},
+				crosshairs: {
+					show: false,
+				},
+				axisBorder: {
+					show: false,
+				},
+				axisTicks: {
+					show: false,
+				},
+			},
+			yaxis: {
+				labels: {
+				show: false,
+					offsetX:-16,
+				   style: {
+					  colors: '#000000',
+					  fontSize: '13px',
+					   fontFamily: 'poppins',
+					  fontWeight: 100,
+					  cssClass: 'apexcharts-xaxis-label',
+				  },
+			  },
+			},
+			};
+
+			var chartBar1 = new ApexCharts(document.querySelector("#expensesChart"), options);
+			chartBar1.render();
+	}
+	var redial = function(){
+		var options = {
+		series: [{{returning_patient_percentage}}],
+		chart: {
+		type: 'radialBar',
+		offsetY: 0,
+		height:160,
+		sparkline: {
+		  enabled: true
+		}
+	  },
+	  plotOptions: {
+		radialBar: {
+		  startAngle: -180,
+		  endAngle: 180,
+		  track: {
+			background: "#F1EAFF",
+			strokeWidth: '100%',
+			margin: 3,
+		  },
+
+		  hollow: {
+			margin: 20,
+			size: '60%',
+			background: 'transparent',
+			image: undefined,
+			imageOffsetX: 0,
+			imageOffsetY: 0,
+			position: 'front',
+		  },
+
+		  dataLabels: {
+			name: {
+			  show: false
+			},
+			value: {
+			  offsetY: 5,
+			  fontSize: '24px',
+			  color:'#000000',
+			  fontWeight:600,
+			}
+		  }
+		}
+	  },
+	  responsive: [{
+		breakpoint: 1600,
+		options: {
+		 chart: {
+			height:150
+		  },
+		}
+	  }
+
+	  ],
+	  grid: {
+		padding: {
+		  top: -10
+		}
+	  },
+	  /* stroke: {
+		dashArray: 4,
+		colors:'#6EC51E'
+	  }, */
+	  fill: {
+		type: 'gradient',
+		colors:'#7A849B',
+		gradient: {
+			shade: 'black',
+			shadeIntensity: 0.15,
+			inverseColors: false,
+			opacityFrom: 1,
+			opacityTo: 1,
+			stops: [64, 43, 64, 0.5]
+		},
+	  },
+	  labels: ['Average Results'],
+	  };
+
+	  var chart = new ApexCharts(document.querySelector("#redial"), options);
+	  chart.render();
+
+
+  }
+
+  var swiperreview = function() {
+
+	var swiper = new Swiper('.mySwiper', {
+		speed: 1500,
+		parallax: true,
+		slidesPerView: 4,
+		spaceBetween: 20,
+		autoplay: {
+			delay: 1000,
+		},
+		navigation: {
+			nextEl: ".swiper-button-next",
+			prevEl: ".swiper-button-prev",
+		},
+		breakpoints: {
+
+		  300: {
+			slidesPerView: 1,
+			spaceBetween: 20,
+		  },
+		  416: {
+			slidesPerView: 2,
+			spaceBetween: 20,
+		  },
+		   768: {
+			slidesPerView: 2,
+			spaceBetween: 20,
+		  },
+		   1280: {
+			slidesPerView: 3,
+			spaceBetween: 20,
+		  },
+		  1788: {
+			slidesPerView: 3,
+			spaceBetween: 20,
+		  },
+		},
+	});
+	$('#container_layout').on('change',function(){
+		if($('body').attr('data-container') == "boxed" || "wide-boxed"){
+			swiper.params.slidesPerView = 3
+		}else{
+			swiper.params.slidesPerView = 4
+		}
+	})
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+	/* Function ============ */
+		return {
+			init:function(){
+			},
+
+
+			load:function(){
+				NewExperience();
+				AllProject();
+				overiewChart();
+				chartBar();
+				expensesChart();
+				redial();
+				swiperreview();
+
+			},
+
+			resize:function(){
+			}
+		}
+
+	}();
+
+
+
+	jQuery(window).on('load',function(){
+		setTimeout(function(){
+			dzChartlist.load();
+		}, 1000);
+
+	});
+
+
+
+})(jQuery);
+
+</script>
+{% endblock %}
+

@@ -1,0 +1,68 @@
+{% extends 'user_site/layout.html' %}
+{% block 'main' %}
+{% load static %}
+
+<div class="col-12">
+    <div class="card recent-sales overflow-auto">
+        <div class="card-body">
+            <h5 class="card-title">Send Message</h5>
+            <form method="POST" action="">
+                {% csrf_token %}
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="form-floating">
+                            <select name="smtp" required class="form-control">
+                                <option value="">----- select email -----</option>
+                                {% for smtp in smtp_list %}
+                                <option {% if default_smtp == smtp %} selected {% endif %} value="{{smtp.id}}">{{ smtp|title }}</option>
+                                {% endfor %}
+                            </select>
+                            <label for="floatingName">Email Account <span style="color:red"><b>*</b></span></label>
+                        </div><br />
+                    </div>
+
+                    <div class="col-md-8">
+                        <div class="form-floating">
+                            <input type="text" autocomplete="off" readonly name="subject" value="{{email_data.data.title}}" class="form-control" required />
+                            <label for="floatingName">Mail Subject <span style="color:red"><b>*</b></span></label>
+                        </div><br />
+                    </div>
+
+                    <div class="col-md-12">
+                        <div class="form-floating">
+                            <input type="text" autocomplete="off" name="email" placeholder="Enter Mail Addresses separated by comma" class="form-control" />
+                            <label for="floatingName">Email Addresses Separated by comma <span style="color:red"><b>*</b></span></label>
+                        </div><br />
+                    </div>
+
+                    <div class="accordion accordion-primary" id="accordion-one">
+                        <div class="accordion-item">
+                            <div class="accordion-header  rounded-lg" id="headingOne" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-controls="collapseOne"   aria-expanded="true" role="button">
+                                <span class="accordion-header-icon"></span>
+                                <span class="accordion-header-text">Add contacts</span>
+                                <span class="accordion-header-indicator"></span>
+	                        </div>
+
+                            <div id="collapseOne" class="collapse" aria-labelledby="headingOne" data-bs-parent="#accordion-one">
+                                <div class="accordion-body-text">
+                                    <div class="row">
+                                        {% for contact in contact_list %}
+                                        <div class="col-md-4 col-lg-4">
+                                            {{ contact.email|lower }} <input name="contact" value="{{contact.email}}" type="checkbox">
+                                        </div>
+                                        {% endfor %}
+                                    </div>
+                                </div>
+	                        </div>
+	                </div>
+
+                    <input type="submit" style="width:200px;margin:auto" value="Send Mail" class="btn btn-success">
+                </div>
+            </form>
+
+        </div>
+
+    </div>
+</div>
+
+{% endblock %}

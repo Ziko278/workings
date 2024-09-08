@@ -1,0 +1,124 @@
+{% extends 'user_site/layout.html' %}
+{% load static %}
+{% load humanize %}
+{% block 'main' %}
+<div class="col-12">
+    <div class="card">
+        <div class="card-body p-0">
+            <div class="table-responsive active-projects">
+                <div class="tbl-caption">
+                    <h4 class="heading mb-0 fs-3 text-center">{{ account|title }} Balance Deposit </h4>
+                </div>
+                <div class="text-center">
+                   <h4 class="heading mb-0 fs-2 text-center">{{ site_setting.default_currency.symbol }}{{ amount|floatformat|intcomma }} </h4>
+                   <h4 class="heading mb-0 fs-4 text-center">{{ amount_in_word|upper }} {{ site_setting.default_currency|upper }} </h4>
+                </div>
+
+                <div class="row p-5">
+                    <div class="col-md-6 col-lg-6 offset-md-3 offset-lg-3">
+                        <form action="" method="POST">
+                            {% csrf_token %}
+                            <div class="card">
+                                <div class="card-body p-5">
+                                    <div class="col-auto">
+                                        <br>
+                                        <label class="form-check-label fs-4">Select Payment Method</label>
+                                        <div class="mb-2">
+                                            {% if trade_plan %} <input type="hidden" name="trade_plan" value="{{trade_plan}}"> {% endif %}
+                                            <input type="hidden" name="wallet_type" value="{{account}}" >
+                                            <input type="hidden" name="amount" id="cryptoamount" value="{{amount}}" >
+                                            <input type="hidden" name="user" value="{{user.id}}" >
+                                            <input type="hidden" name="payment_value" id="cryptovalue" >
+                                            <input type="hidden" name="payment_method" id="payment_method" >
+                                            <select name="account" id="crypto" class="form-control" required>
+                                                <option value="">---- select method ----- </option>
+                                                {% for method in supported_crypto_list %}
+                                                <option value="{{method.id}}" crypto="{{method.name|lower}}">{{ method.name|title }} ({{method|upper}})</option>
+                                                {% endfor %}
+                                            </select>
+                                        </div>
+                                    </div>
+
+                                    <p class="d-flex justify-content-center pt-3"  style="width:100%">
+                                        <img id="crypto_spinner" src="{% static 'admin_site/images/spinner.gif' %}">
+                                    </p>
+
+                                    <div class="col-auto" id="crypto_box">
+
+                                        <br>
+                                        <p class="fs-5 text-danger" id="error_message"></p>
+                                        <p class="fs-5 text-primary" id="crypto_value"></p>
+                                        <input type="submit"  value="Proceed" class="btn btn-lg btn-primary">
+                                    </div>
+
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+
+                </div>
+
+
+            </div>
+        </div>
+    </div>
+</div>
+<script src="{% static 'admin_site/scripts/jquery.js' %}"></script>
+<script>
+    $(document).ready(function(){
+        $('#crypto_spinner').hide()
+        $('#crypto_box').hide()
+        $('#crypto').change(function() {
+            var selectedOption = $(this).find('option:selected');
+            var cryptoValue = selectedOption.attr('crypto');
+            var amount = $('#cryptoamount').val()
+            var pay_method = $(this).val()
+            if (cryptoValue != ''){
+                $('#payment_method').val(pay_method)
+                $.ajax({
+                    url: "{% url 'usd_to_crypto' %}", // Replace with your server endpoint
+                    data: {
+                        crypto: cryptoValue,
+                        usd_amount: amount
+                    },
+                    beforeSend: function() {
+                         $('#crypto_spinner').show()
+                    },
+                    success: function(response) {
+                        crypto_value = response.crypto_amount
+
+                        const significantFigures = 3;
+                        const crypto_value_rounded = roundToSignificantFigures(crypto_value, significantFigures);
+                        result = `<h2 class='fs-3 text-primary text-center'>Send ${crypto_value_rounded} ${cryptoValue.toUpperCase()}</h2>`
+
+                        $('#crypto_value').html(result)
+                        $('#cryptovalue').val(crypto_value_rounded)
+                        $('#crypto_box').show()
+
+                    },
+                    error: function(xhr, status, error) {
+                        // Handle error
+                        $('#error-message').html('<p>Error: ' + error + '</p>');
+                    },
+                    complete: function(xhr, status) {
+                        $('#crypto_spinner').hide()
+                    }
+                });
+            } else {
+
+            }
+        })
+    })
+
+    function roundToSignificantFigures(number, significantFigures) {
+        if (number === 0) return 0; // Edge case for zero
+
+        // Using toPrecision to round to the desired number of significant figures
+        const rounded = Number(number.toPrecision(significantFigures));
+        return rounded;
+    }
+
+</script>
+
+{% endblock %}
+

@@ -1,0 +1,53 @@
+{% extends 'user_site/layout.html' %}
+{% load static %}
+{% load humanize %}
+{% block 'main' %}
+<div class="col-12">
+    <div class="card">
+        <div class="card-body p-0">
+            <div class="table-responsive active-projects">
+                <div class="tbl-caption">
+                    <h4 class="heading mb-0 fs-3 text-center">Email Verification </h4>
+                </div>
+                <div class="text-center">
+                   <a class="text-success fs-3" href="{% url 'user_dashboard' %}">Go To Dashboard</a>
+
+                </div>
+
+
+                    <div class="row p-5">
+                        <div class="col-md-6 col-lg-6 offset-md-3 offset-lg-3">
+                            <div class="card">
+                                <div class="card-body p-5">
+                                    <div class="col-auto">
+                                        <label class="form-check-label text-success fs-4">Email</label>
+                                        <div class="input-group mb-2">
+                                            <div class="input-group-text">@</div>
+                                            <input type="email" autocomplete="off" class="form-control" name="amount" min="{{site_setting.minimum_deposit|floatformat}}" required value="{{user}}" readonly>
+
+                                        </div>
+                                        <p class="text-danger">
+                                            <b>Email Not Verified</b>
+                                        </p>
+                                    </div>
+
+
+
+                                    <div class="col-auto">
+                                        <br>
+                                        <p>Request Email Verification Code</p>
+                                        <a href="{% url 'email_verify_2' %}" class="btn btn-primary">Request Code</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+{% endblock %}
+

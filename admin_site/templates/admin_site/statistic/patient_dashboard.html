@@ -1,0 +1,418 @@
+{% extends 'admin_site/layout.html' %}
+{% load static %}
+{% load humanize %}
+{% block 'main' %}
+<div class="row">
+    <div class="col-xl-9 col-xxl-12">
+        <div class="row">
+            <div class="col-xl-12">
+                <div class="row">
+
+                    <div class="col-xl-12">
+                        <div class="row">
+
+                            <div class="col-md-12">
+                                <div class="row">
+                                    <div class="col-3">
+                                        <div class="card">
+                                            <div class="card-body d-flex justify-content-between align-items-center">
+                                                <div class="d-flex">
+                                                    <div class="icon-box icon-box-md bg-danger-light me-1">
+                                                        <i class="fa-solid fa-users text-primary"></i>
+                                                    </div>
+                                                    <div class="ms-2">
+                                                        <h4 class="text-center"><b>{{ number_of_patient|intcomma }}</b></h4>
+                                                        <p class="mb-0"><b>Total Patients</b></p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-3">
+                                        <div class="card">
+                                            <div class="card-body d-flex justify-content-between align-items-center">
+                                                <div class="d-flex">
+                                                    <div class="icon-box icon-box-md bg-danger-light me-1">
+                                                        <i class="fa-solid fa-male text-primary"></i>
+                                                    </div>
+                                                    <div class="ms-2">
+                                                        <h4 class="text-center"><b>{{ number_of_male_patient|intcomma }}</b></h4>
+                                                        <p class="mb-0"><b>Male Patients</b></p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-3">
+                                        <div class="card">
+                                            <div class="card-body d-flex justify-content-between align-items-center">
+                                                <div class="d-flex">
+                                                    <div class="icon-box icon-box-md bg-danger-light me-1">
+                                                        <i class="fa-solid fa-female text-primary"></i>
+                                                    </div>
+                                                    <div class="ms-2">
+                                                        <h4 class="text-center"><b>{{ number_of_female_patient|intcomma }}</b></h4>
+                                                        <p class="mb-0"><b>Female Patients</b></p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-3">
+                                        <div class="card">
+                                            <div class="card-body d-flex justify-content-between align-items-center">
+                                                <div class="d-flex">
+                                                    <div class="icon-box icon-box-md bg-danger-light me-1">
+                                                        <i class="fa-solid fa-users text-primary"></i>
+                                                    </div>
+                                                    <div class="ms-2">
+                                                        <h4 class="text-center"><b>{% if current_patient_stat %} {{ current_patient_stat.no_of_new_patient|intcomma }} {% else %} 0 {% endif %}</b></h4>
+                                                        <p class="mb-0"><b>New Patients - {% now 'M - Y' %}</b></p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-4">
+                                        <div class="card">
+                                            <div class="card-body d-flex justify-content-between align-items-center">
+                                                <div class="d-flex">
+                                                    <div class="icon-box icon-box-md bg-danger-light me-1">
+                                                        <i class="fa-solid fa-users text-primary"></i>
+                                                    </div>
+                                                    <div class="ms-2">
+                                                        <h4 class="text-center"><b>{% if current_patient_stat %} {{ current_patient_stat.no_of_returning_patient|intcomma }} {% else %} 0 {% endif %}</b></h4>
+                                                        <p class="mb-0"><b>Returning Patients - {% now 'M - Y' %}</b></p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-8">
+                                        <div class="card">
+                                            <div class="card-body d-flex justify-content-between align-items-center">
+                                                <div class="d-flex">
+                                                    <div class="icon-box icon-box-md bg-danger-light me-1">
+                                                        {% if most_active_patient %}
+                                                        <img class="avatar avatar-md rounded-circle" {% if most_active_patient.image %} src="{{most_active_patient.image.url}}" {% else %} src="{% static 'admin_site/images/default_image.jpg' %}" {% endif %}>
+                                                        {% else %}
+                                                        <i class="fa-solid fa-users text-primary"></i>
+                                                        {% endif %}
+                                                    </div>
+                                                    <div class="ms-2">
+                                                        {% if most_active_patient %}
+                                                        <h4 class=""><b>{{ most_active_patient|title }} ({{most_active_patient.card_number|upper}})</b></h4>
+                                                        <h4 class=""><b>{{ most_active_patient.number_of_visits }} Visit{{most_active_patient.number_of_visits|pluralize}} </b></h4>
+                                                        <p><a href="{% url 'patient_detail' most_active_patient.id %}" class="btn btn-primary">View Details</a> </p>
+                                                        {% else %}
+                                                        <h4 class="text-center"><b>--------------</b></h4>
+                                                        {% endif %}
+                                                        <p class="mb-0"><b>Most Active Patient</b></p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-12">
+        <div class="card">
+            <div class="card-header">
+                <h4 class="card-title"><b>One Year New and Returning Patient Distribution</b></h4>
+            </div>
+            <div class="card-body">
+                <div id="line-smoothing" class="ct-chart ct-golden-section chartlist-chart"></div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-xl-6 col-lg-12">
+        <div class="card">
+            <div class="card-header">
+                <h4 class="card-title"><b>Patient distribution by Gender</b></h4>
+            </div>
+            <div class="card-body">
+                <div id="animating-donut" class="ct-chart ct-golden-section chartlist-chart"></div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-xl-6 col-lg-12">
+        <div class="card">
+            <div class="card-header">
+                <h4 class="card-title"><b>Patient distribution by Insurance Providers</b></h4>
+            </div>
+            <div class="card-body">
+                <div id="pie-chart" class="ct-chart ct-golden-section chartlist-chart"></div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-xl-6 col-xxl-12">
+        <div class="card">
+            <div class="card-body p-0">
+                <div class="table-responsive active-projects">
+                <div class="tbl-caption">
+                    <h4 class="heading mb-0">Most Active Patients</h4>
+                </div>
+                    <table id="projects-tbl" class="table">
+                        <thead>
+                            <tr>
+                                <th>Patient Name</th>
+                                <th>Card Number</th>
+                                <th>Gender</th>
+                                <th>Phone Number</th>
+                                <th class="text-center">Number of Visits</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        {% for patient in most_active_patient_list %}
+                            <tr>
+                                <td>
+                                    <div class="d-flex align-items-center">
+                                        <img src="{% if patient.image %}{{patient.image.url}}{% else %}{% static 'admin_site/images/default_image.jpg' %}{% endif %}" class="avatar avatar-md rounded-circle" alt="">
+                                        <p class="mb-0 ms-2">{{patient|title}}</p>
+                                    </div>
+                                </td>
+                                <td>{{ patient.card_number|upper }}</td>
+                                <td>{{ patient.gender|title }}</td>
+                                <td>{{ patient.phone_number }}</td>
+                                <td class="text-center">{{ patient.number_of_visits }}</td>
+
+                                <td>
+									<div class="dropdown">
+										<div class="btn-link" data-bs-toggle="dropdown" aria-expanded="false">
+											<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+												<path d="M11 12C11 12.5523 11.4477 13 12 13C12.5523 13 13 12.5523 13 12C13 11.4477 12.5523 11 12 11C11.4477 11 11 11.4477 11 12Z" stroke="#737B8B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+												<path d="M18 12C18 12.5523 18.4477 13 19 13C19.5523 13 20 12.5523 20 12C20 11.4477 19.5523 11 19 11C18.4477 11 18 11.4477 18 12Z" stroke="#737B8B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+												<path d="M4 12C4 12.5523 4.44772 13 5 13C5.55228 13 6 12.5523 6 12C6 11.4477 5.55228 11 5 11C4.44772 11 4 11.4477 4 12Z" stroke="#737B8B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+											</svg>
+										</div>
+										<div class="dropdown-menu dropdown-menu-right" style="">
+											<a class="dropdown-item text-primary" href="{% url 'patient_detail' patient.id %}">Detail</a>
+                                        </div>
+									</div>
+                                </td>
+
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+
+{% endblock %}
+
+{% block 'style' %}
+<link rel="stylesheet" href="{% static 'admin_site/vendor/chartist/css/chartist.min.css' %}">
+{% endblock %}
+
+{% block 'script' %}
+
+    <script src="{% static 'admin_site/vendor/chartist/js/chartist.min.js' %}"></script>
+    <script src="{% static 'admin_site/vendor/chartist-plugin-tooltips/js/chartist-plugin-tooltip.min.js' %}"></script>
+	<script src="{% static 'admin_site/vendor/bootstrap-select/dist/js/bootstrap-select.min.js' %}"></script>
+
+<script>
+    (function($) {
+    "use strict"
+
+
+ var dlabChartlist = function(){
+
+	var screenWidth = $(window).width();
+
+
+	var lineSmoothingChart = function(){
+		 //Line Interpolation / Smoothing
+
+		var chart = new Chartist.Line('#line-smoothing', {
+			labels: [{% for stat in patient_stat_list %} "{{ stat.date|date:'M-Y' }}" {% endfor %}],
+			series: [
+			  [{% for stat in patient_stat_list %} {{ stat.no_of_new_patient }} {% endfor %}],
+			  [{% for stat in patient_stat_list %} {{ stat.no_of_returning_patient }} {% endfor %}]
+			]
+		}, {
+			// Remove this configuration to see that chart rendered with cardinal spline interpolation
+			// Sometimes, on large jumps in data values, it's better to use simple smoothing.
+			lineSmooth: Chartist.Interpolation.simple({
+			  divisor: 2
+			}),
+			fullWidth: true,
+			chartPadding: {
+			  right: 20
+			},
+			low: 0
+		});
+	}
+
+    var animatingDonutChart = function(){
+		//Animating a Donut with Svg.animate
+
+		var chart = new Chartist.Pie('#animating-donut', {
+			series: [{{number_of_male_patient}}, {{number_of_female_patient}}],
+			labels: ["Male", "Female"]
+		}, {
+			donut: true,
+			showLabel: false,
+			plugins: [
+			  Chartist.plugins.tooltip()
+			]
+		});
+
+		chart.on('draw', function(data) {
+			if(data.type === 'slice') {
+			  // Get the total path length in order to use for dash array animation
+			  var pathLength = data.element._node.getTotalLength();
+
+			  // Set a dasharray that matches the path length as prerequisite to animate dashoffset
+			  data.element.attr({
+				'stroke-dasharray': pathLength + 'px ' + pathLength + 'px'
+			  });
+
+			  // Create animation definition while also assigning an ID to the animation for later sync usage
+			  var animationDefinition = {
+				'stroke-dashoffset': {
+				  id: 'anim' + data.index,
+				  dur: 1000,
+				  from: -pathLength + 'px',
+				  to:  '0px',
+				  easing: Chartist.Svg.Easing.easeOutQuint,
+				  // We need to use `fill: 'freeze'` otherwise our animation will fall back to initial (not visible)
+				  fill: 'freeze'
+				}
+			};
+
+			  // If this was not the first slice, we need to time the animation so that it uses the end sync event of the previous animation
+			  if(data.index !== 0) {
+				animationDefinition['stroke-dashoffset'].begin = 'anim' + (data.index - 1) + '.end';
+			  }
+
+			  // We need to set an initial value before the animation starts as we are not in guided mode which would do that for us
+			  data.element.attr({
+				'stroke-dashoffset': -pathLength + 'px'
+			  });
+
+			  // We can't use guided mode as the animations need to rely on setting begin manually
+			  // See http://gionkunz.github.io/chartist-js/api-documentation.html#chartistsvg-function-animate
+			  data.element.animate(animationDefinition, false);
+			}
+		});
+
+		// For the sake of the example we update the chart every time it's created with a delay of 8 seconds
+		chart.on('created', function() {
+			if(window.__anim21278907124) {
+			  clearTimeout(window.__anim21278907124);
+			  window.__anim21278907124 = null;
+			}
+			window.__anim21278907124 = setTimeout(chart.update.bind(chart), 10000);
+		});
+
+	}
+
+
+	var pieChart = function(){
+		//Pie chart with custom labels
+
+		var data = {
+			labels: [{% for provider, value in patient_insurance_distribution_list.items %} '{{value}}%',{% endfor %}],
+			series: [{% for provider, value in patient_insurance_distribution_list.items %} {{value}},{% endfor %}]
+
+		  };
+
+		var options = {
+			labelInterpolationFnc: function(value) {
+			  return value[0]
+			}
+		  };
+
+		var responsiveOptions = [
+			['screen and (min-width: 640px)', {
+			  chartPadding: 30,
+			  donut: true,
+			  labelOffset: 100,
+			  donutWidth: 60,
+			  labelDirection: 'explode',
+			  labelInterpolationFnc: function(value) {
+				return value;
+			  }
+			}],
+			['screen and (min-width: 1024px)', {
+			  labelOffset: 60,
+			  chartPadding: 20
+			}]
+		];
+
+		new Chartist.Pie('#pie-chart', data, options, responsiveOptions);
+
+	}
+
+	/* Function ============ */
+	return {
+		init:function(){
+		},
+
+
+		load:function(){
+
+			lineSmoothingChart();
+			animatingDonutChart();
+			pieChart();
+
+		},
+
+		resize:function(){
+
+			lineSmoothingChart();
+			animatingDonutChart();
+			pieChart();
+
+		}
+	}
+
+}();
+
+jQuery(document).ready(function(){
+});
+
+jQuery(window).on('load',function(){
+	setTimeout(function(){
+		dlabChartlist.resize();
+	}, 1000);
+});
+
+jQuery(window).on('resize',function(){
+	setTimeout(function(){
+		dlabChartlist.resize();
+	}, 1000);
+
+});
+
+})(jQuery);
+
+
+</script>
+{% endblock %}
+

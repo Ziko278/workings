@@ -1,0 +1,82 @@
+{% extends 'admin_site/layout.html' %}
+{% load static %}
+{% load humanize %}
+{% block 'main' %}
+<div class="row">
+    <div class="col-xl-12">
+        <div class="row">
+            <div class="col-md-6">
+                <div class="card box-hover">
+                    <div class="card-body">
+                        <div class="d-flex align-items-center">
+                            <div class="icon-box icon-box-lg bg-success-light rounded">
+                                <i class="bi bi-people fs-3 text-success"></i>
+                            </div>
+                            <div class="total-projects ms-3">
+                                <h3 class="text-success count">{{total_user}}</h3>
+                                <span>Total Users</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+             <div class="col-md-6">
+                <div class="card box-hover">
+                    <div class="card-body">
+                        <div class="d-flex align-items-center">
+                            <div class="icon-box icon-box-lg bg-success-light rounded">
+                                <i class="bi bi-people fs-3 text-success"></i>
+                            </div>
+                            <div class="total-projects ms-3">
+                                <h3 class="text-success count">{{total_active_user}}</h3>
+                                <span>Verified Users</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-6">
+                <div class="card box-hover">
+                    <div class="card-body">
+                        <div class="d-flex align-items-center">
+                            <div class="icon-box icon-box-lg bg-primary-light rounded">
+                                <i class="fa-solid fa-cart-shopping text-primary"></i>
+
+                            </div>
+                            <div class="total-projects ms-3">
+                                <h3 class="text-primary count">{{site_setting.default_currency.symbol}}{{total_trade_balance|floatformat:2|intcomma}}</h3>
+                                <span>Trading Balance</span>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-6">
+                <div class="card box-hover">
+                    <div class="card-body">
+                        <div class="d-flex align-items-center">
+                            <div class="icon-box icon-box-lg bg-primary-light rounded">
+                                <i class="fa-solid fa-cart-shopping text-primary"></i>
+
+                            </div>
+                            <div class="total-projects ms-3">
+                                <h3 class="text-primary count">{{site_setting.default_currency.symbol}}{{total_holding_balance|floatformat:2|intcomma}}</h3>
+                                <span>Holding Balance</span>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+
+{% endblock %}
+

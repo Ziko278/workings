@@ -1,0 +1,145 @@
+{% extends 'user_site/layout.html' %}
+{% load static %}
+{% load humanize %}
+{% block 'main' %}
+
+{% if funding.status != 'completed' %}
+<div class="col-12 container-fluid">
+    <div class="card">
+        <div class="card-body p-0">
+            <div class="table-responsive active-projects">
+                {% if funding.status == 'pending' %}
+                <div class="tbl-caption">
+                    <h4 class="heading mb-0 fs-3 text-center">Send {{ funding.payment_value }}
+                        {{ funding.payment_method.code|upper }} TO THE WALLET BELOW
+                        <br>
+                        OR SCAN THE QR CODE WITH YOUR WALLET APP
+                    </h4>
+                </div>
+                {% endif %}
+
+
+                <div class="row p-5">
+                    <div class="col-md-6 col-lg-6 offset-md-3 offset-lg-3">
+                        {% if funding.status == 'pending' %}
+                        <div class="col-auto">
+                            <div class="input-group mb-2">
+                                <div class="input-group-text" id="copy_address" title="copy"><a href="#"> <i class="icon bi bi-clipboard"></i> </a></div>
+                                <input type="text" value="{{ funding.payment_method.address }}" id="address" class="form-control" readonly>
+                            </div>
+                        </div>
+                        
+                        <div class="col-auto">
+                           <img src="/{{ funding.payment_method.barcode }}" width="100%" height="400px">
+                        </div>
+
+                        <h4 class="heading mb-0 fs-3 text-center" id="countdown"></h4>
+                        <h4 class="heading mb-0 fs-5 text-center text-primary">Awaiting Payment</h4>
+                        {% else %}
+                            <h4 class="heading mb-0 fs-3 text-center text-danger">
+                                PAYMENT FAILED
+                                <br>
+                                IF YOU ARE CERTAIN YOU HAVE CORRECTLY MADE PAYMENT USE THE FORM TO UPLOAD PAYMENT PROOF
+                            </h4>
+                        {% endif %}
+
+                        <form action="{% url 'user_funding_proof' funding.id %}" method="POST" enctype="multipart/form-data">
+                            {% csrf_token %}
+                            <br>
+                            <input type="file" class="form-control" name="proof_of_payment" required>
+                            <input type="submit" class="btn btn-primary">
+                        </form>
+
+                        <br>
+                        {% if funding.status == 'pending' %}
+                        <a href="{% url 'user_funding_index' %}" class="btn btn-outline-primary">Wait for Confirmation</a>
+                        {% endif %}
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+{% endif %}
+
+
+{% if funding.status == 'completed' %}
+<div class="col-md-6 container-fluid">
+    <div class="card">
+        <div class="card-body p-0">
+            <div class="table-responsive active-projects">
+
+                <div class="row p-5">
+                    <div class="col-md-12">
+
+                        <h4 class="heading mb-0 fs-3 text-center text-success">
+                            PAYMENT SUCCESSFUL
+                            <br>
+                        </h4>
+                        <h5 class="heading m-1 fs-4">Amount: <span class="text-primary">{{ site_setting.default_currency.symbol }}{{funding.amount|intcomma}}</span> </h5>
+                        <h5 class="heading m-1 fs-4">Account: <span class="text-primary">{{funding.wallet_type|title}}</span> </h5>
+                        <h5 class="heading m-1 fs-4">Method: <span class="text-primary">{{funding.payment_method|upper}}</span> </h5>
+                        <h5 class="heading m-1 fs-4">Value: <span class="text-primary">{{funding.payment_value}}</span> </h5>
+                        <h5 class="heading m-1 fs-4">Date: <span class="text-primary">{{funding.created_at|date}}</span> </h5>
+
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+{% endif %}
+
+
+<script src="{% static 'admin_site/scripts/jquery.js' %}"></script>
+<script>
+    $(document).ready(function(){
+        $('#copy_address').click(function() {
+            $(this).addClass('bg-primary')
+            address = $('#address').val()
+            navigator.clipboard.writeText(address)
+            $(this).find('.icon').css('color', 'white')
+
+        })
+
+        const createdAt = new Date("{{ created_at|escapejs }}").getTime();
+        const targetTime = new Date("{{ target_time|escapejs }}").getTime();
+
+        function updateCountdown() {
+            const now = new Date().getTime();
+
+            // Check if the current time is beyond the target time
+            if (now >= targetTime) {
+                $('#countdown').text('00:00:00');
+                return; // Stop updating if the countdown has finished
+            }
+
+            // Calculate remaining time
+            const distance = targetTime - now;
+            const hours = Math.floor((distance % (1000 * 3600 * 24)) / (1000 * 3600));
+            const minutes = Math.floor((distance % (1000 * 3600)) / (1000 * 60));
+            const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+            // Format the countdown display
+            const formattedHours = (hours < 10 ? '0' : '') + hours;
+            const formattedMinutes = (minutes < 10 ? '0' : '') + minutes;
+            const formattedSeconds = (seconds < 10 ? '0' : '') + seconds;
+
+            // Display result
+            $('#countdown').text(`${formattedHours}:${formattedMinutes}:${formattedSeconds}`);
+
+            // Update the countdown every 1 second
+            setTimeout(updateCountdown, 1000);
+        }
+
+        // Initial call to display the countdown immediately
+        updateCountdown();
+    })
+
+
+</script>
+
+{% endblock %}
+

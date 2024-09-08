@@ -1,0 +1,84 @@
+{% extends 'user_site/layout.html' %}
+{% load static %}
+{% load humanize %}
+{% block 'main' %}
+<div class="col-12">
+    <div class="card">
+        <div class="card-body p-0">
+            <div class="table-responsive active-projects">
+                <div class="tbl-caption">
+                    <h4 class="heading mb-0 fs-3 text-center">Email Verification </h4>
+                </div>
+                <div class="text-center">
+                   <a class="text-success fs-3" href="{% url 'user_dashboard' %}">Go To Dashboard</a>
+
+                </div>
+
+
+                    <div class="row p-5">
+                        <div class="col-md-6 col-lg-6 offset-md-3 offset-lg-3">
+                            <div class="card">
+                                <div class="card-body p-5">
+                                    <form method="post" action="">
+                                        {% csrf_token %}
+                                        <div class="col-auto">
+                                            <label class="form-check-label text-success fs-4">Code</label>
+                                            <div class="input-group mb-2">
+                                                <input type="text" autocomplete="off" class="form-control" name="code" minlength="5" maxlength="5" required placeholder="Enter the 5 digit code">
+                                            </div>
+                                            <p class="text-dark">
+                                                <b>Enter Code Sent to {{user.username}}</b>
+                                            </p>
+                                        </div>
+
+                                        <div class="col-auto">
+                                            <input type="submit" value="Verify" class="btn btn-primary">
+                                        </div>
+                                    </form>
+
+                                    <div class="col-auto">
+                                        <br>
+                                        <p id="time"></p>
+                                        <button id="submit" disabled  class="btn btn-primary"><a href="" style="color:white">Resend Code</a></button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="{% static 'admin_site/scripts/jquery.js' %}"></script>
+<script>
+$(document).ready(function() {
+    // Set the countdown time to 1 minutes (60 seconds)
+    var timeLeft = 60;
+
+    // Update the countdown every second
+    var countdownTimer = setInterval(function() {
+        var minutes = Math.floor(timeLeft / 60);
+        var seconds = timeLeft % 60;
+
+        // Format the time to always show two digits
+        seconds = seconds < 10 ? "0" + seconds : seconds;
+        minutes = minutes < 10 ? "0" + minutes : minutes;
+
+        // Display the countdown
+        $("#time").text(minutes + ":" + seconds);
+
+        // Check if the countdown has reached zero
+        if (timeLeft <= 0) {
+            clearInterval(countdownTimer);
+            $("#submit").prop("disabled", false); // Enable the button
+        }
+
+        // Decrease the time left by 1 second
+        timeLeft--;
+    }, 1000);
+});
+</script>
+{% endblock %}
+

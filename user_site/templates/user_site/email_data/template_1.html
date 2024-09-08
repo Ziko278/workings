@@ -1,0 +1,99 @@
+{% extends 'user_site/layout.html' %}
+{% load static %}
+{% load humanize %}
+{% block 'main' %}
+
+<div class="row">
+	<div class="d-flex justify-content-between align-items-center mb-4">
+		<h4 class="heading mb-0"><b>Email Templates</b></h4>
+	</div>
+	<div class="col-xl-12 active-p">
+		<div class="tab-content" id="pills-tabContent">
+			<div class="tab-pane fade show active" id="pills-colm" role="tabpanel" aria-labelledby="pills-colm-tab">
+				<div class="card">
+					<div class="card-body px-2">
+					  <div class="row">
+                          <div class="col-md-6">
+                              <div class="card">
+                                  <div class="card-body">
+                                      <h4 class="heading text-primary mb-0"><b>Plain MultiMedia Mail</b></h4>
+                                      {% include 'user_site/email_template/template_1.html' %}
+                                  </div>
+                              </div>
+                          </div>
+
+                          <div class="col-md-6">
+							  <form method="post" action="">
+								  {% csrf_token %}
+								  <h3 class="text-primary">Fill Data for Email</h3>
+								  <div class="card" style="height:250px">
+									  <div class="card-body">
+										  <input class="form-control" name="title" placeholder="Email title" required><br>
+										  <h4 class="text-primary">Logo Url or Site Name</h4>
+										  <div>
+
+											  <input class="form-control" name="logo" placeholder="Logo Url: https://path-to-logo.com">
+											  <p class="text-center">OR</p>
+											  <input class="form-control" name="site_name" placeholder="site_name">
+										  </div>
+									  </div>
+								  </div>
+
+								  <div class="card" style="height:250px">
+									  <div class="card-body">
+										  <h4 class="text-primary">Email Banner</h4>
+										  <div>
+											  <p>Use Banner <input type="checkbox" checked name="use_banner"></p>
+											  <input class="form-control" name="banner_header" placeholder="Banner Header">
+											  <br>
+											  <input class="form-control" name="banner_description" placeholder="Banner Description">
+										  </div>
+									  </div>
+								  </div>
+
+								  <div class="card" style="height:380px">
+									  <div class="card-body">
+										  <h4 class="text-primary">Email Body</h4>
+										  <div>
+
+											  <textarea class="form-control" name="body_intro" placeholder="Body Introduction"></textarea>
+											  <br>
+											  <p>Enter listed features each separated by 3 stars <b>(***)</b></p>
+											  <textarea class="form-control" name="body_list" placeholder="Listed Features"></textarea>
+											  <br>
+											  <textarea class="form-control" name="body_conclusion" placeholder="Body Conclusion"></textarea>
+											  <p>Enter Image urls from your media separated by a comma <b>(,)</b></p>
+											  <textarea class="form-control" name="body_image" placeholder="Body Images"></textarea>
+
+										  </div>
+									  </div>
+								  </div>
+
+								  <div class="card" style="height:150px">
+									  <div class="card-body">
+										  <h4 class="text-primary">Email Footer</h4>
+										  <div>
+											  <p>Use Footer <input type="checkbox" checked name="use_footer"></p>
+											  <input class="form-control" name="footer_website" placeholder="Website: https://www.website.com">
+
+										  </div>
+									  </div>
+								  </div>
+
+								  <input type="submit" class="btn btn-primary" value="SAVE">
+
+
+							  </form>
+
+                          </div>
+                      </div>
+				   </div>
+				</div>
+
+			</div>
+		</div>
+	</div>
+</div>
+
+
+{% endblock %}
