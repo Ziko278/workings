@@ -389,6 +389,9 @@ class MediaListView(LoginRequiredMixin, ListView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
+        domain = self.request.get_host()  # Get the domain, e.g., 'yourdomain.com'
+        protocol = 'https://' if self.request.is_secure() else 'http://'
+        context['domain'] = protocol + domain  # Combine protocol and domain
         context['form'] = MediaForm
         return context
 

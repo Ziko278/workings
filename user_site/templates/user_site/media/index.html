@@ -50,7 +50,7 @@
 							</div>
 							<div class="card__text">
 							  <h4 class="mb-0">{{ media|title }}</h4>
-							  <p>{{ media.card_number }}</p>
+							  <p>{{ domain }}{{ media.image.url }}</p>
 							</div>
 
 							<div>
@@ -74,6 +74,7 @@
 							<tr>
 								<th>Image</th>
 								<th>Name</th>
+								<th>URL</th>
 								<th>Date Uploaded</th>
 								<th>Action</th>
 
@@ -89,6 +90,7 @@
 									</div>
 								</td>
 								<td>{{ media|title }}</td>
+								<td>{{ domain }}{{ media.image.url }}</td>
 								<td class="text-center">{{ media.created_at|date }}</td>
 								<td>
 									<div class="dropdown">
@@ -135,6 +137,7 @@
 							<br>
 							<label class="form-label">Image Name <b style="color:red">*</b></label>
 							{{ form.name }}
+
 						</div>
 
 						<div class="col-sm-6 m-b30">
