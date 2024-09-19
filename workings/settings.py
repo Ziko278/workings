@@ -141,7 +141,7 @@ EMAIL_HOST = 'smtp.gmail.com'
 # EMAIL_HOST_PASSWORD = 'bndmrymbnvyfhluv'
 
 EMAIL_HOST_USER = 'andrebianchi56@gmail.com'
-EMAIL_HOST_PASSWORD = 'cwlbdoevubqwjfub'
+EMAIL_HOST_PASSWORD = 'tzjghooyrmgaczub'
 
 EMAIL_PORT = 587
 # EMAIL_TIMEOUT = 5
