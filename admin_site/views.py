@@ -2,6 +2,7 @@ import json
 
 from django.contrib.auth import authenticate, login, logout
 from django.db.models import Sum
+from django.db.models.functions import Lower
 from django.views.generic import TemplateView
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 from django.http import HttpResponse, HttpRequest
@@ -200,7 +201,6 @@ def admin_sign_in_view(request):
 def admin_sign_out_view(request):
     logout(request)
     return redirect(reverse('admin_login'))
-
 
 
 class UserListView(LoginRequiredMixin, ListView):

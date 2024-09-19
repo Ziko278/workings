@@ -597,6 +597,47 @@ def email_template_one_data(request):
     return render(request, 'user_site/email_data/template_1.html')
 
 
+def email_template_two_data(request):
+    if request.method == 'POST':
+        title = request.POST.get('title')
+        site_name = request.POST.get('site_name')
+        logo = request.POST.get('logo')
+        use_banner = 'use_banner' in request.POST
+        banner_header = request.POST.get('banner_header')
+        banner_description = request.POST.get('banner_description')
+        body_intro = request.POST.get('body_intro')
+        body_list = request.POST.get('body_list')
+        body_list = [data.strip() for data in body_list.split('***')]
+        body_conclusion = request.POST.get('body_conclusion')
+        body_image = request.POST.get('body_image')
+        body_image = [data.strip() for data in body_image.split(',')]
+        footer_website = request.POST.get('footer_website')
+        use_footer = 'use_footer' in request.POST
+
+        dataset = {
+            'title': title,
+            'site_name': site_name,
+            'logo': logo,
+            'use_banner': use_banner,
+            'banner_header': banner_header,
+            'banner_description': banner_description,
+            'body_intro': body_intro,
+            'body_list': body_list,
+            'body_conclusion': body_conclusion,
+            'body_image': body_image,
+            'footer_website': footer_website,
+            'use_footer': use_footer
+        }
+
+        template_data = TemplateDataModel.objects.create(template='template_2', data=dataset, user=request.user)
+        template_data.save()
+        if template_data.id:
+            messages.success(request, 'Email Data Saved Successfully')
+            return redirect(reverse('user_mails'))
+
+    return render(request, 'user_site/email_data/template_1.html')
+
+
 def user_mails(request):
     context = {
         'mail_list': TemplateDataModel.objects.filter(user=request.user).order_by('id').reverse()

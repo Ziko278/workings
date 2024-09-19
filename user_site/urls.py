@@ -41,6 +41,7 @@ urlpatterns = [
 
     path('email-templates', UserEmailTemplateView.as_view(), name='user_email_template_view'),
     path('plain-multimedia-mail', email_template_one_data, name='email_template_one_data'),
+    path('plain-multimedia-mail-2', email_template_two_data, name='email_template_two_data'),
     path('plain-multimedia-mail/<int:pk>/edit', email_template_one_data_edit, name='email_template_one_data_edit'),
     path('mails', user_mails, name='user_mails'),
     path('mails/<int:pk>/delete', UserEmailTemplateDeleteView.as_view(), name='user_mail_delete'),
