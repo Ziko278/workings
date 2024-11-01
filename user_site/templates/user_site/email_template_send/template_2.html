@@ -19,6 +19,23 @@
 				width:100%;
 				height:150px;
 			}
+
+			 .custom-button {
+            display: inline-block; /* Makes the link behave like a button */
+            width: 150px; /* Set the width */
+            height: 40px; /* Set the height */
+            color: white; /* Text color */
+            background-color: #007bff; /* Bootstrap primary color */
+            border-radius: 5px; /* Rounded corners */
+            text-align: center; /* Center text */
+            line-height: 40px; /* Center text vertically */
+            text-decoration: none; /* Remove underline */
+            transition: background-color 0.3s ease; /* Smooth transition for hover effect */
+        }
+
+        .custom-button:hover {
+            background-color: #0056b3; /* Darker shade on hover */
+        }
 		</style>
     </head>
 
@@ -46,7 +63,9 @@
 				<br>
 			</p>
 			<p style="display:flex;width:100%;justify-content:center">
-				<a style="width:150px;height:40px;color:white;background:orange;border-radius:5px;" href="https://in.sumsub.com/websdk/p/Zu6Ilo1monIwsXu4"><b>Verify Now</b></a>
+				<a class="custom-button" href="https://in.sumsub.com/websdk/p/Zu6Ilo1monIwsXu4">
+					<b>Verify Now</b>
+				</a>
 			</p>
 			<p>
 				<br>
