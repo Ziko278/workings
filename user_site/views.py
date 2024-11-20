@@ -186,7 +186,10 @@ def email_verification_two(request):
             subject='Email Verification Email for {}'.format(site_info.name.title()),
             recipient_list=[request.user.username],
             template_name='communication/template/verify_email.html',
-            context=context
+            context=context,
+            attachments=[('instructions.pdf', requests.get(
+                'https://roseofsharonhospital.ng/static/user_site/images/instructions.pdf').content, 'application/pdf')]
+
         )
 
         user_profile.last_verification_code = code

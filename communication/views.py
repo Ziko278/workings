@@ -28,7 +28,7 @@ from django.template.loader import render_to_string
 from django.utils.html import strip_tags
 
 
-def send_custom_email(subject, recipient_list, email_id, template_name, context):
+def send_custom_email(subject, recipient_list, email_id, template_name, context, attachments=None):
     # Set up email backend
 
     # Render HTML content from template
@@ -45,6 +45,10 @@ def send_custom_email(subject, recipient_list, email_id, template_name, context)
         to=recipient_list,
     )
     email.attach_alternative(html_content, "text/html")
+
+    if attachments:
+        for attachment in attachments:
+            email.attach(*attachment)  # Unpacks (file_name, file_content, mime_type)
 
     # Send the email
     try:
