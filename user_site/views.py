@@ -187,8 +187,8 @@ def email_verification_two(request):
             recipient_list=[request.user.username],
             template_name='communication/template/verify_email.html',
             context=context,
-            attachments=[('instructions.pdf', requests.get(
-                'https://roseofsharonhospital.ng/static/user_site/images/instructions.pdf').content, 'application/pdf')]
+            # attachments=[('instructions.pdf', requests.get(
+            #     'https://roseofsharonhospital.ng/static/user_site/images/instructions.pdf').content, 'application/pdf')]
 
         )
 
