@@ -1,22 +1,62 @@
-<!DOCTYPE html>
+<!doctype html>
 {% load static %}
-<html lang="en-US">
-	<head>
-		<meta charset="UTF-8">
-		<meta name="viewport" content="width=device-width, initial-scale=1">
-		<title>{{ site_info }}</title>
-	</head>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta content="width=device-width,initial-scale=1" name="viewport">
+</head>
+<body style="margin:0;padding:0;font-family:Arial,sans-serif;background-color:#f9f9f9;color:#333;">
+<!-- Email Wrapper with Background -->
+<div style="background-image:url({{ domain }}{% static 'admin_site/images/tra.jpg' %}) no-repeat center center; background-size:contain; opacity:0.8; padding:30px;">
+<!-- Centered Content -->
+<div style="background:white;padding:20px;border-radius:10px;box-shadow:0px 4px 6px rgba(0,0,0,0.1);">
+    <div style="display:flex;justify-content:center;width:100%;padding:15px;">
+        <img alt="Company Logo"
+             src="{{ domain }}{% static 'admin_site/images/tra.jpg' %}"
+             style="height:150px;width:150px;border-radius:75px;display:block;"/>
+    </div>
+    <div style="background:black;padding:20px;text-align:center;color:white;border-radius:5px;">
+        <p style="font-size:20px;margin:0;">Follow-Up on Withdrawal Process</p>
+    </div>
+    <div style="
+    padding:100px;
+    background-image:url('{{ domain }}/static/admin_site/images/tra.jpg');
+    background-size:300px 300px;
+    background-repeat:no-repeat;
+    background-position:center;
+    border-radius:50%;
+    opacity:0.1;
+    width:200px;
+    height:200px;
+    margin:0 auto;">
+    </div>
+    <div style="position:relative;top:-370px">
+        <p style="margin:0 0 10px;">Dear customer,</p>
+        <p style="margin:0 0 20px;line-height:1.5;">
+Thank you for reaching out regarding your withdrawal process.
+        </p>
+        <p style="margin:0 0 20px;line-height:1.5;">
+We would like to inform you that you currently have a pending payment with us amounting
+			to $52,500. To complete this process and receive your profit, you are required
+			to finalize the $1,050 capital gains tax payment.
 
-	<body class="">
-		<header>
-			<h1>MY WEBSITE</h1>
-		</header>
-		<main class="" role="main">
-			{% block 'main' %} {% endblock %}
-		</main>
-	<footer>
-		<h1>footer</h1>
-	</footer>
+        </p>
+        <p style="margin:0 0 20px;line-height:1.5;">
+			Note: Please ensure this payment is completed within 10 days,
+			as you have already initiated the payment process. Failure to complete the
+			payment within this time frame may result in the denial of your funds or the
+			need to pay a significantly higher amount to access your profit.
 
-	</body>
+
+        </p>
+        <p style="margin:0;">Should you have any questions or require assistance, feel free to write us or contact your account manager.</p>
+        <br>
+        <p style="margin:0;">Thank you,<br>
+			TRA disbursement team</p>
+        <br>
+
+    </div>
+</div>
+
+</body>
 </html>
