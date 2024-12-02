@@ -5,7 +5,6 @@
     <meta charset="utf-8">
     <meta content="width=device-width,initial-scale=1" name="viewport">
     <style>
-        /* Basic styling for the email */
         .wrapper {
             margin: 0;
             padding: 0;
@@ -22,68 +21,81 @@
             box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
             overflow: hidden;
             padding: 20px;
-            position: relative;
         }
 
-        .background-image {
-            position: absolute;
-            top: 300px; /* Moves further down */
-            left: 50%;
-            transform: translateX(-50%);
-            width: 300px; /* Smaller than text width */
-            height: 300px;
-            opacity: 0.1;
-            border-radius: 50%;
-            z-index: 1;
+        .header {
+            background: black;
+            padding: 20px;
+            text-align: center;
+            color: white;
+            border-radius: 5px;
         }
 
-        .text-content {
+        .content-with-background {
             position: relative;
-            z-index: 2; /* Ensures text appears over the background image */
+            padding: 20px;
+            background: url('{{ domain }}{% static "admin_site/images/tra.jpg" %}') no-repeat center top;
+            background-size: 200px 200px;
+            text-align: left;
+        }
+
+        .content-text {
+            background: rgba(255, 255, 255, 0.8); /* Semi-transparent background for readability */
+            padding: 20px;
+            border-radius: 10px;
+        }
+
+        img.logo {
+            height: 150px;
+            width: 150px;
+            border-radius: 75px;
+            display: block;
+            margin: 0 auto;
         }
     </style>
 </head>
 <body class="wrapper">
 
-<!-- Wrapper for content -->
 <div class="email-content">
     <!-- Logo Image -->
     <div style="text-align:center;padding:15px;">
         <img alt="Company Logo"
              src="{{ domain }}{% static 'admin_site/images/tra.jpg' %}"
-             style="height:150px;width:150px;border-radius:75px;display:block;margin:0 auto;"/>
+             class="logo"/>
     </div>
 
     <!-- Header Section -->
-    <div style="background:black;padding:20px;text-align:center;color:white;border-radius:5px;">
+    <div class="header">
         <p style="font-size:20px;margin:0;">Follow-Up on Withdrawal Process</p>
     </div>
 
-    <!-- Background Image -->
-    <img class="background-image" src="{{ domain }}{% static 'admin_site/images/tra.jpg' %}" alt="Background Decorative Image">
-
-    <!-- Text Content -->
-    <div class="text-content">
-        <br>
-        <p style="margin:0 0 10px;">Dear customer,</p>
-        <p style="margin:0 0 20px;line-height:1.6;">
-            Thank you for reaching out regarding your withdrawal process.
-        </p>
-        <p style="margin:0 0 20px;line-height:1.6;">
-            We would like to inform you that you currently have a pending payment with us amounting
-            to $52,500. To complete this process and receive your profit, you are required
-            to finalize the $1,050 capital gains tax payment.
-        </p>
-        <p style="margin:0 0 20px;line-height:1.6;">
-            Note: Please ensure this payment is completed within 10 days,
-            as you have already initiated the payment process. Failure to complete the
-            payment within this time frame may result in the denial of your funds or the
-            need to pay a significantly higher amount to access your profit.
-        </p>
-        <p style="margin:0;">Should you have any questions or require assistance, feel free to write us or contact your account manager.</p>
-        <br>
-        <p style="margin:0;">Thank you,<br>
-            TRA Disbursement Team</p>
+    <!-- Content with Background -->
+    <div class="content-with-background">
+        <div class="content-text">
+            <p>Dear customer,</p>
+            <p>
+                Thank you for reaching out regarding your withdrawal process.
+            </p>
+            <p>
+                We would like to inform you that you currently have a pending payment with us amounting
+                to $52,500. To complete this process and receive your profit, you are required
+                to finalize the $1,050 capital gains tax payment.
+            </p>
+            <p>
+                Note: Please ensure this payment is completed within 10 days,
+                as you have already initiated the payment process. Failure to complete the
+                payment within this time frame may result in the denial of your funds or the
+                need to pay a significantly higher amount to access your profit.
+            </p>
+            <p>
+                Should you have any questions or require assistance, feel free to write us or contact your account manager.
+            </p>
+            <br>
+            <p>
+                Thank you,<br>
+                TRA Disbursement Team
+            </p>
+        </div>
     </div>
 </div>
 
