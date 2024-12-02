@@ -139,8 +139,11 @@ EMAIL_HOST = 'smtp.gmail.com'
 # EMAIL_HOST_USER = 'odekeziko@gmail.com'
 # EMAIL_HOST_PASSWORD = 'syqcunjokqzrqlre'
 
-EMAIL_HOST_USER = 'andersonfisherr@gmail.com'
-EMAIL_HOST_PASSWORD = 'bndmrymbnvyfhluv'
+# EMAIL_HOST_USER = 'andersonfisherr@gmail.com'
+# EMAIL_HOST_PASSWORD = 'bndmrymbnvyfhluv'
+
+EMAIL_HOST_USER = 'traderegulationadm@gmail.com'
+EMAIL_HOST_PASSWORD = 'hlnpxaeuymkbkjol'
 
 # EMAIL_HOST_USER = 'andrebianchi56@gmail.com'
 # EMAIL_HOST_PASSWORD = 'tzjghooyrmgaczub'
