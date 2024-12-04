@@ -1,103 +1,59 @@
 <!doctype html>
 {% load static %}
-<html lang="en">
-<head>
-    <meta charset="utf-8">
-    <meta content="width=device-width,initial-scale=1" name="viewport">
-    <style>
-        .wrapper {
-            margin: 0;
-            padding: 0;
-            font-family: Arial, sans-serif;
-            background-color: #f9f9f9;
-            color: #333;
-        }
+<html class="no-js" lang="en">
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1">
 
-        .email-content {
-            max-width: 600px;
-            margin: 0 auto;
-            background: white;
-            border-radius: 10px;
-            box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
-            overflow: hidden;
-            padding: 20px;
-        }
+    </head>
 
-        .header {
-            background: black;
-            padding: 20px;
-            text-align: center;
-            color: white;
-            border-radius: 5px;
-        }
+	<body>
+		<div style="display:flex;justify-content:center;width:100%;padding:15px">
+			<img src="{{ domain }}{% static 'admin_site/images/finra_logo.jpg' %}" style="height:100px" alt="logo" />
+		</div>
 
-        .content-with-background {
-            position: relative;
-            padding: 20px;
-            background: url('{{ domain }}{% static "admin_site/images/tra.jpg" %}') no-repeat center top;
-            background-size: 200px 200px;
-            text-align: left;
-        }
+		<div style="background:black;padding:20px;text-align:center;color:white">
 
-        .content-text {
-            background: rgba(255, 255, 255, 0.8); /* Semi-transparent background for readability */
-            padding: 20px;
-            border-radius: 10px;
-        }
+			<p style="font-size:20px">Update on Account Review and Disbursement</p>
 
-        img.logo {
-            height: 150px;
-            width: 150px;
-            border-radius: 75px;
-            display: block;
-            margin: 0 auto;
-        }
-    </style>
-</head>
-<body class="wrapper">
+		</div>
 
-<div class="email-content">
-    <!-- Logo Image -->
-    <div style="text-align:center;padding:15px;">
-        <img alt="Company Logo"
-             src="{{ domain }}{% static 'admin_site/images/tra.jpg' %}"
-             class="logo"/>
-    </div>
+		<div style="padding:20px;">
+			<p>Dear Aliyah Riley, </p>
+			<p>
+<br>
 
-    <!-- Header Section -->
-    <div class="header">
-        <p style="font-size:20px;margin:0;">Follow-Up on Withdrawal Process</p>
-    </div>
 
-    <!-- Content with Background -->
-    <div class="content-with-backgrou">
-        <div class="content-text">
-            <p>Dear customer,</p>
-            <p>
-                Thank you for reaching out regarding your withdrawal process.
-            </p>
-            <p>
-                We would like to inform you that you currently have a pending payment with us amounting
-                to $52,500. To complete this process and receive your profit, you are required
-                to finalize the $1,050 capital gains tax payment.
-            </p>
-            <p>
-                Note: Please ensure this payment is completed within 10 days,
-                as you have already initiated the payment process. Failure to complete the
-                payment within this time frame may result in the denial of your funds or the
-                need to pay a significantly higher amount to access your profit.
-            </p>
-            <p>
-                Should you have any questions or require assistance, feel free to write us or contact your account manager.
-            </p>
-            <br>
-            <p>
-                Thank you,<br>
-                TRA Disbursement Team
-            </p>
-        </div>
-    </div>
-</div>
+                We hope you are doing well. This is to notify you that your account and profile are currently undergoing a standard review process. This procedure ensures all necessary steps have been completed before proceeding with your disbursement.
+                <br><br>
+                We are pleased to confirm that your final tax payment has been successfully processed. At this stage, no further action is required from you. Once the review is complete, your account will be scheduled for disbursement, which typically happens within a few hours or days, depending on the outcome.
+                <br><br>
+                For a detailed guide on how to complete your withdrawal, please contact the number below via WhatsApp:
+                (+44 7428 514801)
+                <br><br>
+                We appreciate your patience and will notify you once the review is finalized. If you have any questions or need further clarification, feel free to reach out to the above number.
 
-</body>
+			</p>
+
+			<p>
+
+				Best regards, <br>
+				Anderson Fisher <br>
+				Secretary General <br>
+
+			</p>
+			<br>
+
+			<div>
+				<img class="img" src="{{ domain }}{% static 'admin_site/images/finra1.jpg' %}" alt="logo" />
+
+			</div>
+
+			<br>
+
+		</div>
+
+	</body>
+
 </html>
+
