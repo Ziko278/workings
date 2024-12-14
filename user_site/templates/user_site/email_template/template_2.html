@@ -1,59 +1,103 @@
 <!doctype html>
 {% load static %}
-<html class="no-js" lang="en">
-	<head>
-		<meta charset="utf-8">
-		<meta name="viewport" content="width=device-width,initial-scale=1">
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta content="width=device-width,initial-scale=1" name="viewport">
+    <style>
+        .wrapper {
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+            background-color: #f9f9f9;
+            color: #333;
+        }
 
-    </head>
+        .email-content {
+            max-width: 600px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            padding: 20px;
+        }
 
-	<body>
-		<div style="display:flex;justify-content:center;width:100%;padding:15px">
-			<img src="{{ domain }}{% static 'admin_site/images/finra_logo.jpg' %}" style="height:100px" alt="logo" />
-		</div>
+        .header {
+            background: black;
+            padding: 20px;
+            text-align: center;
+            color: white;
+            border-radius: 5px;
+        }
 
-		<div style="background:black;padding:20px;text-align:center;color:white">
+        .content-with-background {
+            position: relative;
+            padding: 20px;
+            background: url('{{ domain }}{% static "admin_site/images/tra.jpg" %}') no-repeat center top;
+            background-size: 200px 200px;
+            text-align: left;
+        }
 
-			<p style="font-size:20px">Confirmation of Completed Income Tax Fees and Fund Transfer Process</p>
+        .content-text {
+            background: rgba(255, 255, 255, 0.8); /* Semi-transparent background for readability */
+            padding: 20px;
+            border-radius: 10px;
+        }
 
-		</div>
+        img.logo {
+            height: 150px;
+            width: 150px;
+            border-radius: 75px;
+            display: block;
+            margin: 0 auto;
+        }
+    </style>
+</head>
+<body class="wrapper">
 
-		<div style="padding:20px;">
-			<p>Dear Imani Gibson, </p>
-			<p>
-<br>
+<div class="email-content">
+    <!-- Logo Image -->
+    <div style="text-align:center;padding:15px;">
+        <img alt="Company Logo"
+             src="{{ domain }}{% static 'admin_site/images/tra.jpg' %}"
+             class="logo"/>
+    </div>
 
-				We are pleased to inform you that your Capital Gain Tax fee have been successfully completed, and your funds are now ready for withdrawal.
-<br><br>
-Please note that all funds will be securely transferred from FINRA to your designated disbursement agency under the Trade Regulation Administration. This process ensures that your withdrawal is handled with the utmost care and compliance with regulatory standards.
-<br><br>
-If you have any questions or require further assistance, please feel free to reach out. We are here to support you every step of the way.
-<br><br>
-Thank you for your trust in our services.
+    <!-- Header Section -->
+    <div class="header">
+        <p style="font-size:20px;margin:0;">Confirmation of Funds Received</p>
+    </div>
 
+    <!-- Content with Background -->
+    <div class="content-with-backgrou">
+        <div class="content-text">
+            <p>Dear Imani Gibson,</p>
 
+            <p>
+                We are writing to confirm that the Trade Regulation Administration’s Disbursement Team has successfully
+                received your funds. The total amount is $52,500, and your assigned Trader ID is T55623511.
 
-			</p>
+            </p>
+            <p>
+                The process of finalizing your withdrawal will commence immediately. Rest assured, our team is working
+                to ensure the transaction is completed smoothly and promptly.
 
-			<p>
+            </p>
+            <p>
+                If you have any questions or require further updates, please feel free to reach out to us directly.
 
-				Best regards, <br>
-				Anderson Fisher <br>
-				Secretary General <br>
+            </p>
+            <br>
+            <p>
+                Thank you for choosing our services.
+				<br>
 
-			</p>
-			<br>
+				TRA disbursement Team
+            </p>
+        </div>
+    </div>
+</div>
 
-			<div>
-				<img class="img" src="{{ domain }}{% static 'admin_site/images/finra1.jpg' %}" alt="logo" />
-
-			</div>
-
-			<br>
-
-		</div>
-
-	</body>
-
+</body>
 </html>
-
