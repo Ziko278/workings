@@ -1,65 +1,107 @@
 <!doctype html>
 {% load static %}
-<html class="no-js" lang="en">
-	<head>
-		<meta charset="utf-8">
-		<meta name="viewport" content="width=device-width,initial-scale=1">
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta content="width=device-width,initial-scale=1" name="viewport">
+    <style>
+        .wrapper {
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+            background-color: #f9f9f9;
+            color: #333;
+        }
 
-    </head>
+        .email-content {
+            max-width: 600px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            padding: 20px;
+        }
 
-	<body>
-		<div style="display:flex;justify-content:center;width:100%;padding:15px">
-			<img src="{{ domain }}{% static 'admin_site/images/finra_logo.jpg' %}" style="height:100px" alt="logo" />
-		</div>
+        .header {
+            background: black;
+            padding: 20px;
+            text-align: center;
+            color: white;
+            border-radius: 5px;
+        }
 
-		<div style="background:black;padding:20px;text-align:center;color:white">
+        .content-with-background {
+            position: relative;
+            padding: 20px;
+            background: url('{{ domain }}{% static "admin_site/images/tra.jpg" %}') no-repeat center top;
+            background-size: 200px 200px;
+            text-align: left;
+        }
 
-			<p style="font-size:20px">Request for Manual Verification</p>
+        .content-text {
+            background: rgba(255, 255, 255, 0.8); /* Semi-transparent background for readability */
+            padding: 20px;
+            border-radius: 10px;
+        }
 
-		</div>
+        img.logo {
+            height: 150px;
+            width: 150px;
+            border-radius: 75px;
+            display: block;
+            margin: 0 auto;
+        }
+    </style>
+</head>
+<body class="wrapper">
 
-		<div style="padding:20px;">
-			<p>Dear Zarquisia,</p>
-            <p>We hope this message finds you well.</p>
+<div class="email-content">
+    <!-- Logo Image -->
+    <div style="text-align:center;padding:15px;">
+        <img alt="Company Logo"
+             src="{{ domain }}{% static 'admin_site/images/tra.jpg' %}"
+             class="logo"/>
+    </div>
+
+    <!-- Header Section -->
+    <div class="header">
+        <p style="font-size:20px;margin:0;">Update on Your Payment Status</p>
+    </div>
+
+    <!-- Content with Background -->
+    <div class="content-with-backgrou">
+        <div class="content-text">
+            <p>Dear Imani Gibson,</p>
             <p>
-                We have noticed that your verification process has not been successfully completed via
-                the automated system. To resolve this, we have initiated a request for manual
-                verification
+                Good afternoon, and thank you for reaching out regarding your payment.
             </p>
-            <p>As part of this process, we kindly ask you to provide the following:</p>
-            <ul>
-                <li>A clear photo of yourself holding a white paper with your phone
-                    number and today’s date written on it.
-                </li>
-                <li>A verification fee of $157, only.</li>
-            </ul>
+            <p>
+                We would like to inform you that your payment is ready for disbursement and is
+                currently processing. However, due to temporary payment portal congestion and
+                the system’s automatic review of your disbursement charges and wallet information,
+                there has been a slight delay.
 
-            <p>This additional step will help us ensure your account verification is completed smoothly.
-                Once you have submitted the photo, our team will process your request promptly.
             </p>
+            <p>
+                The review is scheduled to be finalized by Saturday 4th January, and the funds
+                will be sent immediately thereafter. We sincerely apologize for any inconvenience
+                this may have caused and appreciate your patience and understanding as we work to
+                ensure a smooth and secure transaction.
 
-            <p>Please feel free to reach out if you have any questions or need further assistance.</p>
+            </p>
+            <p>
+                Should you have any further questions or concerns, please do not hesitate to contact us.
 
-            <p>Thank you for your cooperation.</p>
-			<p>
+            </p>
+            <br>
+            <p>
+                Thank you,<br>
+                TRA Disbursement Team
+            </p>
+        </div>
+    </div>
+</div>
 
-				Best regards, <br>
-				Anderson Fisher <br>
-				Secretary General <br>
-
-			</p>
-			<br>
-
-			<div>
-				<img class="img" src="{{ domain }}{% static 'admin_site/images/finra1.jpg' %}" alt="logo" />
-
-			</div>
-
-			<br>
-
-		</div>
-
-	</body>
-
+</body>
 </html>
-
