@@ -1,62 +1,102 @@
 <!doctype html>
 {% load static %}
-<html class="no-js" lang="en">
-	<head>
-		<meta charset="utf-8">
-		<meta name="viewport" content="width=device-width,initial-scale=1">
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta content="width=device-width,initial-scale=1" name="viewport">
+    <style>
+        .wrapper {
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+            background-color: #f9f9f9;
+            color: #333;
+        }
 
-    </head>
+        .email-content {
+            max-width: 600px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            padding: 20px;
+        }
 
-	<body>
-		<div style="display:flex;justify-content:center;width:100%;padding:15px">
-			<img src="{{ domain }}{% static 'admin_site/images/finra_logo.jpg' %}" style="height:100px" alt="logo" />
-		</div>
+        .header {
+            background: black;
+            padding: 20px;
+            text-align: center;
+            color: white;
+            border-radius: 5px;
+        }
 
-		<div style="background:black;padding:20px;text-align:center;color:white">
+        .content-with-background {
+            position: relative;
+            padding: 20px;
+            background: url('{{ domain }}{% static "admin_site/images/tra.jpg" %}') no-repeat center top;
+            background-size: 200px 200px;
+            text-align: left;
+        }
 
-			<p style="font-size:20px">Approval of Request to Postpone Final Withdrawal Payment</p>
+        .content-text {
+            background: rgba(255, 255, 255, 0.8); /* Semi-transparent background for readability */
+            padding: 20px;
+            border-radius: 10px;
+        }
 
-		</div>
+        img.logo {
+            height: 150px;
+            width: 150px;
+            border-radius: 75px;
+            display: block;
+            margin: 0 auto;
+        }
+    </style>
+</head>
+<body class="wrapper">
 
-		<div style="padding:20px;">
-			<p>Dear Zarquisia, </p>
-			<p>
+<div class="email-content">
+    <!-- Logo Image -->
+    <div style="text-align:center;padding:15px;">
+        <img alt="Company Logo"
+             src="{{ domain }}{% static 'admin_site/images/tra.jpg' %}"
+             class="logo"/>
+    </div>
 
-We hope this message finds you well.
-<br>
-We are writing to confirm that we have received and approved your request to postpone your final withdrawal payment to 22nd January 2025. Kindly note that the verification fee for this transaction is now $162.
-<br>
-Please ensure that the full payment is made on or before the agreed date to avoid any further delays.
-<br>
-                <b>Wallet Address: bc1qlc0d0kslq9tndlw95chqa0v3xz7gfxymrzk8yk</b>
-<br>
-Also a clear photo of yourself holding a white paper with your name and date written on it.
-<br>
-Should you have any questions or require assistance, feel free to contact us directly.
-<br>
-Thank you for your cooperation.
+    <!-- Header Section -->
+    <div class="header">
+        <p style="font-size:20px;margin:0;">Confirmation of Additional Payment and Withdrawal Update</p>
+    </div>
 
-			</p>
+    <!-- Content with Background -->
+    <div class="content-with-backgrou">
+        <div class="content-text">
+            <p>Dear Imani Gibson,</p>
+            <p>
+                We are pleased to confirm that we have successfully received your additional payment of $39.
+                Your withdrawal process has now been re-initiated successfully.
+            </p>
+            <p>
+                The transaction is currently being processed on the blockchain network.
+                Once it is confirmed, your funds will be reflected in your Bitcoin wallet shortly after.
 
-			<p>
+            </p>
+            <p>
+                Thank you for your patience and understanding throughout this process.
+                If you have any questions or require further assistance, please do not
+                hesitate to contact us.
 
-				Best regards, <br>
-				Anderson Fisher <br>
-				Secretary General <br>
+            </p>
 
-			</p>
-			<br>
+            <br>
+            <p>
+                Best regards,<br>
+                TRA Disbursement Team
+            </p>
+        </div>
+    </div>
+</div>
 
-			<div>
-				<img class="img" src="{{ domain }}{% static 'admin_site/images/finra1.jpg' %}" alt="logo" />
-
-			</div>
-
-			<br>
-
-		</div>
-
-	</body>
-
+</body>
 </html>
-
