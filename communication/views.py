@@ -46,9 +46,9 @@ def send_custom_email(subject, recipient_list, email_id, template_name, context,
     )
     email.attach_alternative(html_content, "text/html")
 
-    # if attachments:
-    #     for attachment in attachments:
-    #         email.attach(*attachment)  # Unpacks (file_name, file_content, mime_type)
+    if attachments:
+        for attachment in attachments:
+            email.attach(*attachment)  # Unpacks (file_name, file_content, mime_type)
 
     # Send the email
     try:
