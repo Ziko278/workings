@@ -26,7 +26,7 @@ SECRET_KEY = 'django-insecure-ga)&8^1utq@9zx$=$p^t1^##t@*ix8kpry-bzx_rfi+4mc284^
 DEBUG = True
 
 ALLOWED_HOSTS = ['*']
-CSRF_TRUSTED_ORIGINS = ['https://roseofsharonhospital.ng', 'https://www.roseofsharonhospital.ng']
+CSRF_TRUSTED_ORIGINS = ['https://roseofsharonhospital.ng', 'https://www.roseofsharonhospital.ng', 'https://winbirdzone.com', 'https://www.winbirdzone.com']
 
 
 
