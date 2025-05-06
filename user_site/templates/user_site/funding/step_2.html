@@ -1,0 +1,47 @@
+{% extends 'user_site/layout.html' %}
+{% load static %}
+{% load humanize %}
+{% block 'main' %}
+<div class="col-12">
+    <div class="card">
+        <div class="card-body p-0">
+            <div class="table-responsive active-projects">
+                <div class="tbl-caption">
+                    <h4 class="heading mb-0 fs-3 text-center">{{ account|title }} Balance Deposit </h4>
+                </div>
+                <div class="text-center">
+                   <h4 class="heading mb-0 fs-2 text-center">{{ site_setting.default_currency.symbol }}{{ amount|floatformat|intcomma }} </h4>
+                   <h4 class="heading mb-0 fs-4 text-center">{{ amount_in_word|upper }} {{ site_setting.default_currency|upper }} </h4>
+                </div>
+
+                <h4 class="heading mb-0 fs-3 pt-4 text-center">Select Payment Method </h4>
+
+                <div class="row p-5">
+                    <div class="col-md-6 col-lg-6 offset-md-3 offset-lg-3">
+                        <a href="{% url 'user_funding_create_2' %}?amount={{amount}}&account={{account}}&pay=yes{% if trade_plan %}&trade_plan={{trade_plan}}{% endif %}">
+                            <div class="card">
+                                <div class="card-body p-5">
+                                    <div class="col-auto text-center">
+                                        <label class="form-check-label fs-4 text-primary">Send Crypto</label>
+                                        <p class="card-description fs-4">Send Supported Crypto Currency</p>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+
+                    <div class="text-center">
+                        <h2><a href="{% url 'user_buy_crypto' %}" class="text-primary">Buy Crypto</a> </h2>
+                    </div>
+                </div>
+
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+{% endblock %}
+

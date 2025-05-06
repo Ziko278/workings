@@ -1,0 +1,80 @@
+<!doctype html>
+{% load static %}
+<html class="no-js" lang="en">
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1">
+
+		<style>
+			* {
+				margin: 0px;
+				padding: 0px
+			}
+
+			li {
+				padding-bottom:10px
+			}
+
+			.img {
+				width:48%;
+				height:120px;
+			}
+		</style>
+    </head>
+
+	<body>
+		<div style="display:flex;justify-content:center;width:100%;padding:15px">
+			{% if email_data.data.logo %}
+			<img src="{{email_data.data.logo}}" alt="logo" />
+			{% else %}
+			<h1 style="color:white;width:100%;text-align:center">{{email_data.data.site_name}}</h1>
+			{% endif %}
+		</div>
+
+		<div style="background:black;padding:20px;text-align:center;color:white">
+			<h1 style="font-size:30px">Get $200 Off $500</h1>
+			<p style="font-size:20px">Join our loyalty program, Vault Rewards, and get more benefits!</p>
+
+		</div>
+
+		<div style="padding:20px;">
+			<p>Hi there! We are pleased to inform you that you have been preselected for our loyalty program.
+				The program is aimed at assisting young business enterpreneuers to startup or expand their Jewelry
+				Sales ambitions.
+			</p>
+			<br>
+
+			<p>The program comes with the following benefits:</p>
+			<br>
+			<ul>
+				<li>Discounted Offers</li>
+				<li>Upfront Jewelry Delivery</li>
+				<li>Company Branding for products given</li>
+				<li>Unlock higher tiers and more benefits with qualified purchases</li>
+			</ul>
+
+			<p>The program will run for a limited period and is intended to expand our client base.
+			The amount and category of products you are entitled to will increase as you performance increase
+			</p>
+			<br>
+
+			<p>Our PR manager will also reach out to you via mail to guide you on how to complete the registration
+			process
+			</p>
+			<br>
+			<div>
+				<img class="img" src="{{ domain }}{% static 'user_site/images/1.jpg' %}" alt="logo" />
+				<img class="img" src="{{ domain }}{% static 'user_site/images/2.jpg' %}" alt="logo" />
+				<img class="img" src="{{ domain }}{% static 'user_site/images/3.jpg' %}" alt="logo" />
+				<img class="img" src="{{ domain }}{% static 'user_site/images/4.jpg' %}" alt="logo" />
+			</div>
+
+			<br>
+			<p>Visit our <a target="_blank" href="#">website </a> for more information</p>
+
+		</div>
+
+	</body>
+
+</html>
+

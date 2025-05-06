@@ -1,0 +1,117 @@
+{% extends 'user_site/layout.html' %}
+{% load static %}
+{% load humanize %}
+{% block 'main' %}
+<section class="section profile">
+      <div class="row">
+        <div class="col-xl-4">
+
+          <div class="card" style="height:180px">
+            <div class="card-body profile-card pt-4 d-flex flex-column align-items-center">
+
+              <h1>{{site_setting.default_currency.symbol}}{{ user.user_wallet.referral_balance|floatformat:2|intcomma }}</h1>
+              <span>Referral Balance</span>
+                <br>
+                <a href="" class="btn btn-primary">Withdraw</a>
+            </div>
+          </div>
+
+            <div class="card box-hover" style="height:90px">
+                <div class="card-body">
+                    <div class="d-flex align-items-center">
+                        <div class="total-projects ms-3">
+                            <h3 class="text-success text-center fs-5">Referral Link</h3>
+                             <div class="input-group mb-2" style="width:100%">
+                                <div class="input-group-text" id="copy_address" title="copy"><a href="#"> <i class="icon bi bi-clipboard"></i> </a></div>
+                                <input type="text" value="{{domain}}{{ referral_link }}?user_id={{user_profile.user|lower}}" id="address" class="form-control" readonly>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+        </div>
+
+        <div class="col-xl-8">
+
+          <div class="card">
+            <div class="card-body pt-3">
+              <!-- Bordered Tabs -->
+              <ul class="nav nav-tabs nav-tabs-bordered">
+
+                <li class="nav-item">
+                  <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#profile-overview">My Referrals</button>
+                </li>
+
+              </ul>
+              <div class="tab-content pt-2">
+
+                <div class="tab-pane fade show active profile-overview" id="profile-overview">
+                    {% if user_profile.referrals.all|length > 0 %}
+                        <div class="table-responsive">
+						<table class="table table-bordered table-striped">
+							<thead>
+								<tr class="bg-primary text-white">
+									<th>S/N</th>
+									<th>User</th>
+                                    {% if site_setting.referral_payment_before_bonus %}
+									<th>Deposited</th>
+                                    {% endif %}
+
+								</tr>
+							</thead>
+							<tbody>
+								{% for referrer in user_profile.referrals.all %}
+								<tr>
+									<td>{{ forloop.counter }}</td>
+									<td>{{ referrer|title }}</td>
+                                    {% if site_setting.referral_payment_before_bonus %}
+									<td>
+                                        {% if referrer.has_deposited %}
+                                        <i class="bi bi-check fs-3 text-success"></i>
+                                        {% else %}
+                                        <i class="bi bi-x fs-3 text-danger"></i>
+                                        {% endif %}
+                                    </td>
+                                    {% endif %}
+
+								</tr>
+							{% endfor %}
+							</tbody>
+
+						</table>
+					</div>
+                    {% else %}
+                        <h2 class="p-5">No Referral Yet</h2>
+                    {% endif %}
+
+                </div>
+
+
+              </div><!-- End Bordered Tabs -->
+
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+<script src="{% static 'admin_site/scripts/jquery.js' %}"></script>
+<script>
+    $(document).ready(function(){
+        $('#copy_address').click(function() {
+            $(this).addClass('bg-primary')
+            address = $('#address').val()
+            navigator.clipboard.writeText(address)
+            $(this).find('.icon').css('color', 'white')
+
+        })
+
+
+    })
+
+
+</script>
+{% endblock %}

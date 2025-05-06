@@ -1,0 +1,115 @@
+{% extends 'user_site/layout.html' %}
+{% load static %}
+{% load humanize %}
+{% block 'main' %}
+<section class="section profile">
+      <div class="row">
+        <div class="col-md-6 offset-md-3">
+
+          <div class="card" style="height:250px">
+            <div class="card-body profile-card pt-4 d-flex flex-column align-items-center">
+
+              <img width="100px" height="100" {% if user_profile.photo %} src="{{ user_profile.photo.url }}" {% else %} src="{% static 'admin_site/images/default_image.jpg' %}" {% endif %} alt="Profile" class="rounded-circle">
+              <h2>{{ user_profile|title }}</h2>
+              <h3>{{ user_profile.user|lower }}</h3>
+
+            </div>
+          </div>
+
+          {% if user_profile.email_verified %}
+            <div class="card box-hover" style="height:90px">
+                <div class="card-body">
+                    <div class="d-flex align-items-center">
+                        <div class="icon-box icon-box-lg bg-success-light rounded">
+                            <i class="fa-solid fa-shield text-success"></i>
+                        </div>
+                        <div class="total-projects ms-3">
+                            <h3 class="text-success count fs-5">Email Verified</h3>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {% else %}
+            <a href="{% url 'email_verify_1' %}">
+            <div class="card box-hover" style="height:90px">
+                <div class="card-body">
+                    <div class="d-flex align-items-center">
+                        <div class="icon-box icon-box-lg bg-success-light rounded">
+                            <i class="fa-solid fa-shield text-success"></i>
+                        </div>
+                        <div class="total-projects ms-3">
+                            <h3 class="text-success count fs-5">Verify Email</h3>
+                        </div>
+                    </div>
+                </div>
+            </div>
+          </a>
+        {% endif %}
+
+            {% if user_profile.identity_verified %}
+            <div class="card box-hover" style="height:90px">
+                <div class="card-body">
+                    <div class="d-flex align-items-center">
+                        <div class="icon-box icon-box-lg bg-success-light rounded">
+                            <i class="fa-solid fa-user text-success"></i>
+                        </div>
+                        <div class="total-projects ms-3">
+                            <h3 class="text-success count fs-5">Identity Verified</h3>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {% else %}
+            <a href="{% url 'identity_verify' %}">
+            <div class="card box-hover" style="height:90px">
+                <div class="card-body">
+                    <div class="d-flex align-items-center">
+                        <div class="icon-box icon-box-lg bg-success-light rounded">
+                            <i class="fa-solid fa-user text-success"></i>
+                        </div>
+                        <div class="total-projects ms-3">
+                            <h3 class="text-success count fs-5">Verify Identity</h3>
+                        </div>
+                    </div>
+                </div>
+            </div>
+          </a>
+        {% endif %}
+
+            {% if user_profile.address_verified %}
+            <div class="card box-hover" style="height:90px">
+                <div class="card-body">
+                    <div class="d-flex align-items-center">
+                        <div class="icon-box icon-box-lg bg-success-light rounded">
+                            <i class="fa-solid fa-house text-success"></i>
+                        </div>
+                        <div class="total-projects ms-3">
+                            <h3 class="text-success count fs-5">Address Verified</h3>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {% else %}
+            <a href="{% url 'address_verify' %}">
+            <div class="card box-hover" style="height:90px">
+                <div class="card-body">
+                    <div class="d-flex align-items-center">
+                        <div class="icon-box icon-box-lg bg-success-light rounded">
+                            <i class="fa-solid fa-house text-success"></i>
+                        </div>
+                        <div class="total-projects ms-3">
+                            <h3 class="text-success count fs-5">Verify Address</h3>
+                        </div>
+                    </div>
+                </div>
+            </div>
+          </a>
+        {% endif %}
+
+
+        </div>
+
+      </div>
+    </section>
+
+{% endblock %}

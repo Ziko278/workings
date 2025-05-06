@@ -1,0 +1,33 @@
+{% extends 'admin_site/layout.html' %}
+{% load static %}
+{% block 'main' %}
+
+<form action="" method="POST" enctype="multipart/form-data">
+    {% csrf_token %}
+
+    <!-- row -->
+    <div class="row">
+        <div class="col-12">
+            <div class="card profile-card card-bx m-b30">
+                <div class="card-header">
+                    <h6 class="title">Site Data </h6>
+                    <a href="{% url 'site_setting_edit' site_setting.id %}" class="btn btn-primary" style="float:right">Update Info</a>
+                </div>
+
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-sm-6 m-b30">
+                                <label class="form-label">Email Confirmation</label>
+                                <h1 class="card-title">{{ site_setting.email_confirmation }}</h1>
+                            </div>
+
+
+                        </div>
+                    </div>
+
+            </div>
+        </div>
+    </div>
+
+</form>
+{% endblock %}

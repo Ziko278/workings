@@ -1,0 +1,146 @@
+{% extends 'admin_site/layout.html' %}
+{% load static %}
+{% load humanize %}
+{% block 'main' %}
+
+<div class="row">
+	<div class="d-flex justify-content-between align-items-center mb-4">
+		<h4 class="heading mb-0 fs-3 text-primary"><b>{{ funding|title }} Funding List</b></h4>
+	</div>
+	<div class="col-xl-12 active-p">
+		<div class="tab-content" id="pills-tabContent">
+			<div class="tab-pane fade show active" id="pills-colm" role="tabpanel" aria-labelledby="pills-colm-tab">
+				<div class="card">
+					<div class="card-body px-0">
+					  <div class="table-responsive active-projects user-tbl  dt-filter">
+						<table id="user-tbl" class="table shorting">
+							<thead>
+								<tr>
+									<th>S/N</th>
+									<th>User</th>
+									<th>Amount</th>
+									<th>Asset</th>
+									<th>Value</th>
+									<th>Status</th>
+									<th>Action</th>
+
+								</tr>
+							</thead>
+							<tbody>
+								{% for funding in funding_list %}
+								<tr>
+									<td>{{ forloop.counter }}</td>
+									<td>{{ funding.user.user_profile }}</td>
+									<td>{{site_setting.default_currency.symbol}}{{ funding.amount|floatformat|intcomma }}</td>
+									<td>{{ funding.payment_method }}</td>
+									<td>{{ funding.payment_value }}</td>
+									<td class="{% if funding.status == 'pending' %} text-warning {% elif funding.status == 'completed' %} text-success {% elif funding.status == 'failed' %} text-danger {% endif %}">
+                                        {{ funding.status|title }}
+                                    </td>
+									<td>
+										<div class="dropdown">
+											<div class="btn-link" data-bs-toggle="dropdown" aria-expanded="false">
+												<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+													<path d="M11 12C11 12.5523 11.4477 13 12 13C12.5523 13 13 12.5523 13 12C13 11.4477 12.5523 11 12 11C11.4477 11 11 11.4477 11 12Z" stroke="#737B8B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+													<path d="M18 12C18 12.5523 18.4477 13 19 13C19.5523 13 20 12.5523 20 12C20 11.4477 19.5523 11 19 11C18.4477 11 18 11.4477 18 12Z" stroke="#737B8B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+													<path d="M4 12C4 12.5523 4.44772 13 5 13C5.55228 13 6 12.5523 6 12C6 11.4477 5.55228 11 5 11C4.44772 11 4 11.4477 4 12Z" stroke="#737B8B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+												</svg>
+											</div>
+											<div class="dropdown-menu dropdown-menu-right" style="">
+												{% if funding.proof_of_payment %}<a class="dropdown-item text-primary" href="{{funding.proof_of_payment.url}}" target="_blank">View Proof</a>{% endif %}
+												{% if funding.status != 'completed' %}<a class="dropdown-item text-success" href="#" data-bs-toggle="modal" data-bs-target="#markc{{ forloop.counter }}">Mark Completed</a>{% endif %}
+												{% if funding.status == 'pending' %}<a class="dropdown-item text-danger" href="#" data-bs-toggle="modal" data-bs-target="#markf{{ forloop.counter }}">Mark Failed</a>{% endif %}
+											</div>
+										</div>
+									</td>
+								</tr>
+							{% endfor %}
+							</tbody>
+
+						</table>
+					</div>
+				   </div>
+				</div>
+
+			</div>
+		</div>
+	</div>
+</div>
+
+
+{% for funding in funding_list %}
+<form action="{% url 'funding_update_status' funding.id %}" method="post">
+	{% csrf_token %}
+	<div class="modal fade" id="markc{{ forloop.counter }}">
+		<div class="modal-dialog modal-lg" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+                    <h5 class="modal-title"><b>Update Funding Status </b></h5>
+					<button type="button" class="btn-close" data-bs-dismiss="modal">
+					</button>
+				</div>
+				<div class="modal-body">
+					<div class="row">
+						<div class="offset-md-2 col-md-8 m-b30">
+							{% if funding.proof_of_payment %}
+							<img src="{{ funding.proof_of_payment.url }}" style="width:100%;height:300px">
+							{% endif %}
+						</div>
+
+						<div class="col-12 m-b30">
+							<input type="hidden" name="status" value="completed">
+							<p class="fs-3 text-success">Update Funding Status to Completed</p>
+						</div>
+
+					</div>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-danger light" data-bs-dismiss="modal">Close</button>
+					<input type="submit" class="btn btn-primary" value="YES" />
+				</div>
+			</div>
+		</div>
+	</div>
+</form>
+
+{% endfor %}
+
+{% for funding in funding_list %}
+<form action="{% url 'funding_update_status' funding.id %}" method="post">
+	{% csrf_token %}
+	<div class="modal fade" id="markf{{ forloop.counter }}">
+		<div class="modal-dialog modal-lg" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+                    <h5 class="modal-title"><b>Update Funding Status </b></h5>
+					<button type="button" class="btn-close" data-bs-dismiss="modal">
+					</button>
+				</div>
+				<div class="modal-body">
+					<div class="row">
+						<div class="offset-md-2 col-md-8 m-b30">
+							{% if funding.proof_of_payment %}
+							<img src="{{ funding.proof_of_payment.url }}" style="width:100%;height:300px">
+							{% endif %}
+						</div>
+						
+						<div class="col-12 m-b30">
+							<input type="hidden" name="status" value="failed">
+							<textarea class="form-control" name="reason" required placeholder="Reason for Failure"></textarea>
+							<p class="fs-3 text-danger">Update Funding Status to Failed</p>
+						</div>
+
+					</div>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-danger light" data-bs-dismiss="modal">Close</button>
+					<input type="submit" class="btn btn-primary" value="YES" />
+				</div>
+			</div>
+		</div>
+	</div>
+</form>
+
+{% endfor %}
+
+{% endblock %}

@@ -1,0 +1,91 @@
+{% extends 'user_site/layout.html' %}
+{% load static %}
+{% load humanize %}
+{% block 'main' %}
+<div class="col-12">
+    <div class="card">
+        <div class="card-body p-0">
+            <div class="table-responsive active-projects">
+                <div class="tbl-caption">
+                    <h4 class="heading mb-0">List of Deposits
+                        <a class="btn btn-primary text-center" href="{% url 'user_funding_create_1' %}" style="">Deposit</a> </h4>
+                </div>
+                {% if funding_list %}
+                <table id="funding-tbl" class="table">
+                    <thead>
+                        <tr>
+                            <th>Amount</th>
+                            <th>Account</th>
+                            <th>Date</th>
+                            <th>Status</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for funding in funding_list %}
+                        <tr>
+                            <td>{{site_setting.default_currency.symbol}}{{funding.amount|floatformat|intcomma}}</td>
+                            <td>{{ funding.wallet_type|title }}</td>
+                            <td>{{ funding.created_at|date }}</td>
+
+                            <td class="pe-0">
+                                {% if funding.status|lower == 'pending' %}
+                                <span class="badge badge-warning light border-0">Pending</span>
+                                {% elif funding.status|lower == 'completed' %}
+                                <span class="badge badge-success light border-0">Successful</span>
+                                {% elif funding.status|lower == 'failed' %}
+                                <span class="badge badge-danger light border-0">Failed</span>
+                                {% endif %}
+
+                            </td>
+                            <td><a href="{% url 'user_funding_create_4' funding.id %}" class="btn btn-primary" title="view details"><i class="bi bi-eye"></i> </a> </td>
+
+                        </tr>
+                    {% endfor %}
+
+                    </tbody>
+
+                </table>
+                {% else %}
+                <div class="p-4">
+                    <div class="card">
+                        <div class="card-body">
+                            <h1 class="card-title text-center">NO DEPOSIT YET</h1>
+                        </div>
+
+                    </div>
+                </div>
+
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    var table = $('#funding-tbl').DataTable({
+		//dom: 'Bfrtip',
+		'dom': 'ZBfrltip',
+		buttons: [
+
+			{ extend: 'excel', text: '<i class="fa-solid fa-file-excel"></i> Export Report',
+              className: 'btn btn-sm border-0'
+			}
+        ],
+		searching: false,
+		pageLength:10,
+		select: false,
+        lengthChange:false ,
+		language: {
+			paginate: {
+				next: '<i class="fa-solid fa-angle-right"></i>',
+				previous: '<i class="fa-solid fa-angle-left"></i>'
+			}
+
+		},
+
+    });
+</script>
+
+{% endblock %}
+

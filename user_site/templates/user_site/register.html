@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en" class="h-100">
+<head>
+    <meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+	<!-- PAGE TITLE HERE -->
+	<title>{{ site_info|title }} </title>
+
+	<!-- FAVICONS ICON -->
+	<link rel="shortcut icon" href="{{ site_info.logo.url }}">
+    <link href="{% static 'admin_site/css/style.css' %}" rel="stylesheet">
+
+</head>
+
+<body class="vh-100" style='background-image:url("{% static 'admin_site/images/bg.png' %}"); background-position:center;'>
+    <div class="authincation h-100">
+        <div class="container h-100">
+            <div class="row justify-content-center h-100 align-items-center">
+                <div class="col-12">
+                    <div class="authincation-content">
+                        <div class="row no-gutters">
+                            <div class="col-xl-12">
+                                <div class="auth-form">
+									<div class="text-center mb-3" style="margin-top:-30px">
+										<a href="{% url 'homepage' %}"><img src="{{ site_info.logo.url }}" alt=""></a>
+									</div>
+                                    <h4 class="text-center mb-4">CREATE YOUR FREE ACCOUNT</h4>
+                                    <form action="" method="post" class="row" enctype="multipart/form-data">
+                                        {% csrf_token %}
+                                        {% if user_id %}<input type="hidden" name="user_id" value="{{user_id}}">{% endif %}
+                                        <div class="col-12">
+                                            {% if profile_form.errors %}
+                                            {% for key, error in profile_form.errors.items %}
+                                            <div class="alert alert-danger alert-dismissible fade show">
+                                                <strong>{{key}}: {{ error }}</strong>
+                                                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="btn-close">
+                                                X
+                                                </button>
+                                            </div>
+                                            {% endfor %}
+                                            {% endif %}
+
+                                            {% if user_form.errors %}
+                                            {% for key, error in user_form.errors.items %}
+                                            <div class="alert alert-danger alert-dismissible fade show">
+                                                <strong>{{key}}: {{ error }}</strong>
+                                                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="btn-close">
+                                                X
+                                                </button>
+                                            </div>
+                                            {% endfor %}
+                                            {% endif %}
+
+                                        </div>
+                                        <div class="col-md-4 mb-3">
+                                            <label class="mb-1"><strong>Email <span class="text-danger">*</span></strong></label>
+                                            {{ profile_form.username }}
+                                        </div>
+
+                                        <div class="col-md-4 mb-3">
+                                            <label class="mb-1"><strong>Password <span class="text-danger">*</span></strong></label>
+                                            {{ user_form.password1 }}
+                                        </div>
+
+                                        <div class="col-md-4 mb-3">
+                                            <label class="mb-1"><strong>Confirm Password <span class="text-danger">*</span></strong></label>
+                                            {{ user_form.password2 }}
+                                        </div>
+
+                                        <div class="col-md-4 mb-3">
+                                            <label class="mb-1"><strong>First Name <span class="text-danger">*</span></strong></label>
+                                            {{ profile_form.first_name }}
+                                        </div>
+
+                                        <div class="col-md-4 mb-3">
+                                            <label class="mb-1"><strong>Last Name <span class="text-danger">*</span></strong></label>
+                                            {{ profile_form.last_name }}
+                                        </div>
+
+                                        <div class="col-md-4 mb-3">
+                                            <label class="mb-1"><strong>Phone Number <span class="text-danger">*</span></strong></label>
+                                            {{ profile_form.phone_number }}
+                                        </div>
+
+                                        <div class="col-md-4 mb-3">
+                                            <label class="mb-1"><strong>Country <span class="text-danger">*</span></strong></label>
+                                            <select class="form-control" name="country" required id="country" ></select>
+                                        </div>
+
+
+                                        <div class="col-md-4 mb-3">
+                                            <label class="mb-1"><strong>City <span class="text-danger">*</span></strong></label>
+                                            {{ profile_form.city }}
+                                        </div>
+
+                                        <div class="col-md-4 mb-3">
+                                            <label class="mb-1"><strong>Profile Photo</strong></label>
+                                            {{ profile_form.photo }}
+                                        </div>
+
+                                        <div class="col-12">
+                                            <div class="row">
+                                                <div class="text-center col-md-4 offset-md-4 mt-4">
+                                                    <button type="submit" class="btn btn-primary btn-block">Register Account</button>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    </form>
+                                    <div class="new-account mt-3">
+                                        <p>Already have an account? <a class="text-primary" href="{% url 'login' %}">Sign in</a></p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+<!--**********************************
+	Scripts
+***********************************-->
+<!-- Required vendors -->
+<script src="{% static 'admin_site/vendor/global/global.min.js' %}"></script>
+<script src="{% static 'admin_site/js/custom.js' %}"></script>
+<script src="{% static 'admin_site/js/deznav-init.js' %}"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        fetchCountries();
+    });
+
+    async function fetchCountries() {
+    try {
+        const response = await fetch('https://countriesnow.space/api/v0.1/countries/positions', {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+        });
+
+        const data = await response.json();
+
+        const countryList = document.getElementById('country');
+        countryList.innerHTML = "<option value=''>---------------</option>";
+
+        if (data.data) {
+            data.data.forEach(country => {
+                const listItem = document.createElement('option');
+                listItem.textContent = country.name;
+                listItem.value = country.name;
+                listItem.setAttribute('country_code', country.iso2); // Optional: Store country code as an attribute
+                countryList.appendChild(listItem);
+            });
+        }
+
+    } catch (error) {
+        console.error('Error:', error);
+    }
+}
+</script>
+</body>
+</html>

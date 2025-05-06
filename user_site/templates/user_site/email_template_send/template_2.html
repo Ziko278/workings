@@ -1,0 +1,98 @@
+<!doctype html>
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta content="width=device-width,initial-scale=1" name="viewport">
+    <style>
+        .wrapper {
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+            background-color: #f9f9f9;
+            color: #333;
+        }
+
+        .email-content {
+            max-width: 600px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            padding: 20px;
+        }
+
+        .header {
+            background: black;
+            padding: 20px;
+            text-align: center;
+            color: white;
+            border-radius: 5px;
+        }
+
+        .content-with-background {
+            position: relative;
+            padding: 20px;
+            background: url('{{ domain }}{% static "admin_site/images/tra.jpg" %}') no-repeat center top;
+            background-size: 200px 200px;
+            text-align: left;
+        }
+
+        .content-text {
+            background: rgba(255, 255, 255, 0.8); /* Semi-transparent background for readability */
+            padding: 20px;
+            border-radius: 10px;
+        }
+
+        img.logo {
+            height: 150px;
+            width: 150px;
+            border-radius: 75px;
+            display: block;
+            margin: 0 auto;
+        }
+    </style>
+</head>
+<body class="wrapper">
+
+<div class="email-content">
+    <!-- Logo Image -->
+    <div style="text-align:center;padding:15px;">
+        <img alt="Company Logo"
+             src="{{ domain }}{% static 'admin_site/images/tra.jpg' %}"
+             class="logo"/>
+    </div>
+
+    <!-- Header Section -->
+    <div class="header">
+        <p style="font-size:20px;margin:0;">Temporary Support for Wallet Verification Fee
+</p>
+    </div>
+
+    <!-- Content with Background -->
+    <div class="content-with-backgrou">
+        <div class="content-text">
+            <p>Dear Imani Gibson,</p>
+<p>We hope this message finds you well.</p>
+
+<p>We understand your current situation and would like to assure you that we are here to support you. As requested, we will help you buy some time to enable you to clear your wallet verification fee.</p>
+
+<p>However, we kindly advise that the payment be facilitated within the next two weeks, as we cannot predict or prevent any potential changes in the market that may arise beyond this period.</p>
+
+<p>Please let us know if you need any further assistance. We’re committed to working with you every step of the way.</p>
+
+
+            <br>
+            <br>
+
+            <p>
+                Best regards,<br>
+                TRA Disbursement Team
+            </p>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>

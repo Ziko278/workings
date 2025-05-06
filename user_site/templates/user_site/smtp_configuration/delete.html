@@ -1,0 +1,22 @@
+{% extends 'user_site/layout.html' %}
+{% block 'main' %}
+{% load static %}
+{% load humanize %}
+<div class="col-lg-12 grid-margin stretch-card">
+    <div class="card">
+        <div class="card-body">
+            <h4 class="card-title">Delete Email Configuration</h4>
+            <p>Email Account: <i>{{ smtp_configuration }} - {{ smtp_configuration.email|lower }}</i></p>
+
+            <p>The Email Configuration will be permanently deleted.</p>
+
+            <form style="display:inline" method="post">
+                {% csrf_token %}
+
+                <button class="btn btn-success">Proceed</button>
+            </form>
+            <a class="btn btn-danger" href="{% url 'smtp_configuration_index' %}"> Cancel</a>
+        </div>
+    </div>
+</div>
+{% endblock %}
