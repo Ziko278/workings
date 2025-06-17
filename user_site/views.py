@@ -1,10 +1,12 @@
 import json
 import random
 import re
-import requests
+import os
+from django.conf import settings
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.tokens import default_token_generator
+from django.contrib.staticfiles import finders
 from django.core.mail import send_mail, BadHeaderError
 from django.db.models import Sum, Q
 from django.db.models.functions import Lower
@@ -13,11 +15,6 @@ from django.template.loader import render_to_string
 from django.views.generic import TemplateView
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.views.generic.list import ListView
-from django.views.generic.detail import DetailView
-from django.views.decorators.http import require_POST
-from django.core.exceptions import PermissionDenied
-from django.core.exceptions import ValidationError
-from datetime import datetime, timedelta
 from django.contrib.sites.shortcuts import get_current_site
 from django.http import HttpResponse, JsonResponse, Http404, HttpRequest
 from django.utils.encoding import force_str, force_bytes
@@ -27,7 +24,6 @@ from django.urls import reverse
 from django.contrib.auth import authenticate, login, logout, update_session_auth_hash
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm, PasswordResetForm, SetPasswordForm
-from num2words import num2words
 
 from admin_site.forms import MediaForm
 from admin_site.models import SiteInfoModel, SiteSettingModel, MediaModel
@@ -738,6 +734,13 @@ def send_template_email(request, pk):
         contact_list = request.POST.getlist('contact')
         email_list += contact_list
 
+        image_path = finders.find('user_site/images/btc.jpg')  # Replace with your static path
+        attachments = []
+
+        if image_path:
+            with open(image_path, 'rb') as f:
+                attachments.append(('logo.png', f.read(), 'image/jpg'))
+
         mail_sent = 0
         for email in email_list:
             mail_sent = send_custom_email(
@@ -745,7 +748,8 @@ def send_template_email(request, pk):
                 recipient_list=[email],
                 email_id=default_mail_account.id,
                 template_name='user_site/email_template_send/{}.html'.format(email_data.template),
-                context=context
+                context=context,
+                attachments=attachments
             )
 
         if mail_sent > 0:
