@@ -737,9 +737,9 @@ def send_template_email(request, pk):
         image_path = finders.find('user_site/images/btc.jpg')  # Replace with your static path
         attachments = []
 
-        if image_path:
-            with open(image_path, 'rb') as f:
-                attachments.append(('logo.png', f.read(), 'image/jpg'))
+        # if image_path:
+        #     with open(image_path, 'rb') as f:
+        #         attachments.append(('logo.png', f.read(), 'image/jpg'))
 
         mail_sent = 0
         for email in email_list:
